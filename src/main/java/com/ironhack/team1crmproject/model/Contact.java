@@ -1,4 +1,5 @@
 package com.ironhack.team1crmproject.model;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,21 +15,36 @@ public class Contact {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "contact_id")
     private Long contactId;
 
+    @Column(name = "name")
     private String name;
 
+    @Column(name = "role")
     private String role;
 
+    @Column(name = "email")
     private String email;
 
+    @Column(name = "phone_number")
     private String phoneNumber;
-
+//
+//    contactList para la Account
+//    @JoinColumn(name = "account_id")
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "account_id")
     private Account account;
 
     @OneToOne(mappedBy = "decisionMaker")
     private Opportunity opportunity;
 
+
+    public Contact(String name, String role, String email, String phoneNumber, Account account, Opportunity opportunity) {
+        this.name = name;
+        this.role = role;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.account = account;
+        this.opportunity = opportunity;
+    }
 }
