@@ -5,6 +5,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -59,17 +60,38 @@ class OpportunityRepositoryTest {
 
         // convert 134
         var alfredOpportunity = createANewOpportunity(alfredLead, TruckType.BOX, 6);
-
+        Account account = getAccount(alfredLead.getCompanyName());
+        // after opportunity creation, account must be created or updated
+        if (account == null) {
+            //List<Contact> contactList = List.of(getContact(alfredLead));
+            //List<Opportunity> opportunityList = List.of(alfredOpportunity);
+            account = new Account(7, alfredLead.getCompanyName(), "Spain", "Barcelona", IndustryType.OTHER);
+        }
+        account.getOpportunityList().add(alfredOpportunity);
+        account.getContactList().add(getContact(alfredLead));
         alfredOpportunity = opportunityRepository.save(alfredOpportunity);
     }
     private Opportunity createANewOpportunity(Lead lead, TruckType truck, int quantity) {
         Opportunity opportunity;
         Contact decisionMaker = getContact(lead);
-        Account account = getAccount(lead.getCompanyName());
-        opportunity = new Opportunity(truck, quantity, decisionMaker, account);
+        opportunity = new Opportunity(truck, quantity, decisionMaker);
         return opportunity;
     }
 
+    private boolean accountExists(String companyName) {
+        var accounts = accountRepository.findAll();
+        int i = 0;
+        boolean found = false;
+        Account account = null;
+        while (i < accounts.size() && !found) {
+            if (companyName.equals(accounts.get(i).getCompanyName())) {
+                account = accounts.get(i);
+                found = true;
+            }
+            i++;
+        }
+        return found;
+    }
     private Account getAccount(String companyName) {
         var accounts = accountRepository.findAll();
         int i = 0;
