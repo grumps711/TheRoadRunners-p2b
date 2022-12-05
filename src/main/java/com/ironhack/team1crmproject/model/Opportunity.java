@@ -1,8 +1,10 @@
 package com.ironhack.team1crmproject.model;
 
+import com.ironhack.team1crmproject.repository.ContactRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 
@@ -36,12 +38,10 @@ public class Opportunity {
     @ManyToOne(cascade = CascadeType.ALL)
     private Account account;
 
-
-    public Opportunity(TruckType truck, int quantity, StatusType status, Contact decisionMaker, Account account) {
+    public Opportunity(TruckType truck, int quantity, Contact decisionMaker) {
         this.truck = truck;
         this.quantity = quantity;
-        this.status = status;
+        this.status = StatusType.OPEN;
         this.decisionMaker = decisionMaker;
-        this.account = account;
     }
 }
