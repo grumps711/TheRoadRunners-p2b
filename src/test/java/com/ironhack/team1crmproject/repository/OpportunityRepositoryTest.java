@@ -37,8 +37,8 @@ class OpportunityRepositoryTest {
 
         // Creation of Contacts
         var accounts = List.of(
-                new Account(2, eugeniLead.getCompanyName(), "England", "London", IndustryType.MANUFACTURING, contacts, ),
-                new Account(4, joseLead.getCompanyName(), "Switzerland", "Zurich", IndustryType.ECOMMERCE, )
+                new Account(2, eugeniLead.getCompanyName(), "England", "London", IndustryType.MANUFACTURING),
+                new Account(4, joseLead.getCompanyName(), "Switzerland", "Zurich", IndustryType.ECOMMERCE)
         );
         accountRepository.saveAll(accounts);
         //Creation of Opportunities
@@ -55,21 +55,21 @@ class OpportunityRepositoryTest {
 
     @Test
     void OpportunityCreationTest() {
+        // Creation of new lead
         var alfredLead = new Lead("Alfred", "Ironhacker", "alfred@gmail.com", "666666666", "Ironhack");
         alfredLead = leadRepository.save(alfredLead);
 
         // convert 134
         var alfredOpportunity = createANewOpportunity(alfredLead, TruckType.BOX, 6);
-        Account account = getAccount(alfredLead.getCompanyName());
+        alfredOpportunity = opportunityRepository.save(alfredOpportunity);
+        // TODO: TEST checks alfredLead is deleted
         // after opportunity creation, account must be created or updated
-        if (account == null) {
-            //List<Contact> contactList = List.of(getContact(alfredLead));
-            //List<Opportunity> opportunityList = List.of(alfredOpportunity);
-            account = new Account(7, alfredLead.getCompanyName(), "Spain", "Barcelona", IndustryType.OTHER);
-        }
+        Account account = getAccount(alfredLead.getCompanyName());
+
+        // add opportunity and contact to the Account
         account.getOpportunityList().add(alfredOpportunity);
         account.getContactList().add(getContact(alfredLead));
-        alfredOpportunity = opportunityRepository.save(alfredOpportunity);
+
     }
     private Opportunity createANewOpportunity(Lead lead, TruckType truck, int quantity) {
         Opportunity opportunity;
@@ -78,20 +78,6 @@ class OpportunityRepositoryTest {
         return opportunity;
     }
 
-    private boolean accountExists(String companyName) {
-        var accounts = accountRepository.findAll();
-        int i = 0;
-        boolean found = false;
-        Account account = null;
-        while (i < accounts.size() && !found) {
-            if (companyName.equals(accounts.get(i).getCompanyName())) {
-                account = accounts.get(i);
-                found = true;
-            }
-            i++;
-        }
-        return found;
-    }
     private Account getAccount(String companyName) {
         var accounts = accountRepository.findAll();
         int i = 0;
@@ -105,12 +91,11 @@ class OpportunityRepositoryTest {
             i++;
         }
         if (!found) {
-            account = new Account(2, companyName, "England", "London", IndustryType.MANUFACTURING, , ),
+            account = new Account(2, companyName, "England", "London", IndustryType.MANUFACTURING);
+            accountRepository.save(account);
         }
-
         return account;
     }
-
     private Contact getContact(Lead lead) {
         var contacts = contactRepository.findAll();
         int contact = 0;
