@@ -51,19 +51,19 @@ class OpportunityRepositoryTest {
     class checkSetUp {
         @Test
         void checkTotalLeadsAfterCreateOpportunity() {
-            assertEquals(1, leadRepository.findAll().size());
+            assertEquals(0, leadRepository.findAll().size());
         }
         @Test
         void checkTotalOpportunities() {
-            assertEquals(1, opportunityRepository.findAll().size());
+            assertEquals(3, opportunityRepository.findAll().size());
         }
         @Test
         void checkTotalContacts() {
-            assertEquals(1, contactRepository.findAll().size());
+            assertEquals(2, contactRepository.findAll().size());
         }
         @Test
         void checkTotalAccounts() {
-            assertEquals(1, accountRepository.findAll().size());
+            assertEquals(2, accountRepository.findAll().size());
         }
     }
 
@@ -83,7 +83,11 @@ class OpportunityRepositoryTest {
         Account account = getAccount(alfredLead.getCompanyName());
         assertEquals(account, accountRepository.findAccountByAccountId(account.getAccountId()));
         // add opportunity and contact to the Account
+
         account.getOpportunityList().add(alfredOpportunity);
+
+        // TODO
+        //  check if contact already exists
         account.getContactList().add(getContact(alfredLead));
     }
     private Opportunity createANewOpportunity(Lead lead, TruckType truck, int quantity) {
@@ -130,6 +134,4 @@ class OpportunityRepositoryTest {
         }
         return decisionMaker;
     }
-    @Test
-    void
 }

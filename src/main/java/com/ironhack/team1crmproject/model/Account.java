@@ -28,6 +28,8 @@ public class Account {
     @Column(name = "country")
     private String country;
 
+    @Column (name = "balance")
+    private Double balance;
     @Column(name = "city")
     private String city;
 
