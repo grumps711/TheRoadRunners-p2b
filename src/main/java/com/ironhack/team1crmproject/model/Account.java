@@ -45,14 +45,12 @@ public class Account {
 
 
 
-    public Account(int numberOfEmployees, String companyName, String country, String city, IndustryType industryType, List<Contact> contactList, List<Opportunity> opportunityList) {
+    public Account(int numberOfEmployees, String companyName, String country, String city, IndustryType industryType) {
         this.numberOfEmployees = numberOfEmployees;
         this.companyName = companyName;
         this.country = country;
         this.city = city;
         this.industryType = industryType;
-        this.contactList = contactList;
-        this.opportunityList = opportunityList;
     }
 }
 

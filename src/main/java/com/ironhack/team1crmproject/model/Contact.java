@@ -39,12 +39,10 @@ public class Contact {
     private Opportunity opportunity;
 
 
-    public Contact(String name, String role, String email, String phoneNumber, Account account, Opportunity opportunity) {
+    public Contact(String name, String role, String email, String phoneNumber) {
         this.name = name;
         this.role = role;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.account = account;
-        this.opportunity = opportunity;
     }
 }
