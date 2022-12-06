@@ -10,11 +10,11 @@ import java.util.List;
 @Repository
 public interface LeadRepository extends JpaRepository<Lead,Long> {
 
-    List<Lead> findLeadByLeadId(Long leadId);
+    List<Lead> findByCompanyName(String companyName);
+    Lead findLeadByLeadId(Long id);
     List<Lead> findLeadByName(String name);
     List<Lead> findLeadByRole(String role);
     List<Lead> findLeadByEmail(String email);
     List<Lead> findLeadByPhoneNumber(String phoneNumber);
     List<Lead> findLeadByCompanyName(String companyName);
-
 }
