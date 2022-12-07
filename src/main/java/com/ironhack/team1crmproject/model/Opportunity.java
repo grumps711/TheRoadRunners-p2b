@@ -29,7 +29,7 @@ public class Opportunity {
     @Column(name = "status")
     private StatusType status;
 
-    @OneToOne()
+    @ManyToOne(cascade = CascadeType.ALL)
     private Contact decisionMaker;
 
 //    opportunityList para la Account
