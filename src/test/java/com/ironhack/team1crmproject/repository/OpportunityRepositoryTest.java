@@ -2,16 +2,23 @@ package com.ironhack.team1crmproject.repository;
 
 import com.ironhack.team1crmproject.model.*;
 import org.junit.jupiter.api.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+@SpringBootTest
 class OpportunityRepositoryTest {
+    @Autowired
     OpportunityRepository opportunityRepository;
+    @Autowired
     ContactRepository contactRepository;
+    @Autowired
     LeadRepository leadRepository;
+    @Autowired
     AccountRepository accountRepository;
     @BeforeEach
     void setUp() {
@@ -33,13 +40,6 @@ class OpportunityRepositoryTest {
                 createANewOpportunity(silviLead, TruckType.HYBRID, 30)
         );
         opportunityRepository.saveAll(opportunities);
-
-        // Creation of Accounts just after created an opportunity
-        var accounts = List.of(
-                getAccount(eugeniLead.getCompanyName()),
-                getAccount(silviLead.getCompanyName())
-        );
-        accountRepository.saveAll(accounts);
     }
     @AfterEach
     void tearDown() {
@@ -59,7 +59,7 @@ class OpportunityRepositoryTest {
         }
         @Test
         void checkTotalContacts() {
-            assertEquals(2, contactRepository.findAll().size());
+            assertEquals(3, contactRepository.findAll().size());
         }
         @Test
         void checkTotalAccounts() {
@@ -76,24 +76,23 @@ class OpportunityRepositoryTest {
         // convert 134
         var alfredOpportunity = createANewOpportunity(alfredLead, TruckType.BOX, 6);
         alfredOpportunity = opportunityRepository.save(alfredOpportunity);
+
         assertNull(leadRepository.findLeadByLeadId(alfredLead.getLeadId()));
         assertEquals(alfredOpportunity, opportunityRepository.findOpportunityByOpportunityId(alfredOpportunity.getOpportunityId()));
 
-        // after opportunity creation, account must be created or updated
-        Account account = getAccount(alfredLead.getCompanyName());
-        assertEquals(account, accountRepository.findAccountByAccountId(account.getAccountId()));
-        // add opportunity and contact to the Account
-
-        account.getOpportunityList().add(alfredOpportunity);
-
         // TODO
         //  check if contact already exists
-        account.getContactList().add(getContact(alfredLead));
+
     }
     private Opportunity createANewOpportunity(Lead lead, TruckType truck, int quantity) {
-        Opportunity opportunity;
         Contact decisionMaker = getContact(lead);
-        opportunity = new Opportunity(truck, quantity, decisionMaker);
+
+        Opportunity opportunity = new Opportunity(truck, quantity, decisionMaker);
+
+        Account account = getAccount(lead.getCompanyName());
+        account.getOpportunityList().add(opportunity);
+        account.getContactList().add(getContact(lead));
+
         leadRepository.delete(leadRepository.findLeadByLeadId(lead.getLeadId()));
         return opportunity;
     }
@@ -117,21 +116,10 @@ class OpportunityRepositoryTest {
         return account;
     }
     private Contact getContact(Lead lead) {
-        var contacts = contactRepository.findAll();
-        int contact = 0;
-        boolean found = false;
-        Contact decisionMaker = null;
-        while (contact < contacts.size() && !found) {
-            if (lead.getName().equals(contacts.get(contact).getName())) {
-                decisionMaker = contacts.get(contact);
-                found = true;
-            }
-            contact++;
+        Optional<Contact> decisionMaker = contactRepository.findContactByName(lead.getName());
+        if (decisionMaker.isEmpty()) {
+            return contactRepository.save(new Contact(lead.getName(), lead.getRole(), lead.getEmail(), lead.getPhoneNumber()));
         }
-        if (!found) {
-            decisionMaker = new Contact(lead.getName(), lead.getRole(), lead.getEmail(), lead.getPhoneNumber());
-            contactRepository.save(decisionMaker);
-        }
-        return decisionMaker;
+        return decisionMaker.get();
     }
 }
