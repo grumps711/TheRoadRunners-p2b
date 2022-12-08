@@ -9,7 +9,6 @@ import java.util.Optional;
 
 @Service
 public class LeadService {
-
     private final LeadRepository leadRepository;
 
     public LeadService(LeadRepository leadRepository) {

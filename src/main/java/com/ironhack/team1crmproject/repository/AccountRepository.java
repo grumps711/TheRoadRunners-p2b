@@ -10,13 +10,10 @@ import java.util.List;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long>{
 
-
-    List<Account> findAccountByAccountId(Long accountId);
+    Account findAccountByAccountId(Long id);
     List<Account> findAccountByNumberOfEmployees(int numberOfEmployees);
     List<Account> findAccountByCompanyName(String companyName);
     List<Account> findAccountByCountry(String country);
     List<Account> findAccountByCity(String city);
     List<Account> findAccountByIndustryType(IndustryType industryType);
-
-
 }
