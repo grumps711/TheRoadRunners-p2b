@@ -1,2 +1,7 @@
-CREATE DATABASE crm;
+CREATE if NOT EXISTS DATABASE crm;
 USE crm;
+
+
+
+
+
