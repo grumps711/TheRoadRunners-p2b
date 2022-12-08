@@ -32,9 +32,6 @@ public class Opportunity {
     @ManyToOne(cascade = CascadeType.ALL)
     private Contact decisionMaker;
 
-//    opportunityList para la Account
-//    @JoinColumn(name = "account_id")
-
     @ManyToOne(cascade = CascadeType.ALL)
     private Account account;
 

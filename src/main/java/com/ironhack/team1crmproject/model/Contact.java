@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -21,28 +22,26 @@ public class Contact {
     private Long contactId;
 
     @Column(name = "name")
-    @NotNull
+    //@NotNull
     private String name;
 
     @Column(name = "role")
-    @NotNull
+    //@NotNull
     private String role;
 
     @Column(name = "email")
-    @NotNull
+    //@NotNull
     private String email;
 
     @Column(name = "phone_number")
-    @NotNull
+    //@NotNull
     private String phoneNumber;
-//
-//    contactList para la Account
-//    @JoinColumn(name = "account_id")
+
     @ManyToOne(cascade = CascadeType.ALL)
     private Account account;
 
     @OneToMany(mappedBy = "decisionMaker")
-    private List<Opportunity> opportunities;
+    private List<Opportunity> opportunities = new ArrayList<>();
 
     public Contact(String name, String role, String email, String phoneNumber) {
         this.name = name;

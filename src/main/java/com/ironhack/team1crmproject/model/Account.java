@@ -37,16 +37,11 @@ public class Account {
     @Column(name = "industry_type")
     private IndustryType industryType;
 
-
-//    @ToString.Exclude
     @OneToMany(mappedBy = "account")
-    private List<Contact> contactList;
+    private List<Contact> contactList;// = new ArrayList<>();
 
-//    @ToString.Exclude
     @OneToMany(mappedBy = "account")
-    private List<Opportunity> opportunityList;
-
-
+    private List<Opportunity> opportunityList;// = new ArrayList<>();
 
     public Account(int numberOfEmployees, String companyName, String country, String city, IndustryType industryType) {
         this.numberOfEmployees = numberOfEmployees;
@@ -54,6 +49,8 @@ public class Account {
         this.country = country;
         this.city = city;
         this.industryType = industryType;
+        contactList = new ArrayList<>();
+        opportunityList = new ArrayList<>();
     }
 }
 
