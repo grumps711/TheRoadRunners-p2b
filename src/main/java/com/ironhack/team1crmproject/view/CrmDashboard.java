@@ -147,39 +147,44 @@ public class CrmDashboard {
         var activity = "";
         while (!input.equalsIgnoreCase("BACK")) {
 
-            System.out.println("Lead creation");
-            System.out.println("You may now create your lead, you can always type BACK if you want to exit lead creation");
+            try {
 
-            System.out.println("Type the name of the lead:");
-            String name= input = inputScanner.nextLine();
+                System.out.println("Lead creation");
+                System.out.println("You may now create your lead, you can always type BACK if you want to exit lead creation");
 
-            System.out.println("Type the role of the lead:");
-            String role= input = inputScanner.nextLine();
+                System.out.println("Type the name of the lead:");
+                String name = input = inputScanner.nextLine();
 
-            System.out.println("Type the email of the lead:");
-            String email = input = inputScanner.nextLine();
+                System.out.println("Type the role of the lead:");
+                String role = input = inputScanner.nextLine();
 
-            System.out.println("Type the phone number of the lead:");
-            String phoneNumber = input = inputScanner.nextLine();
+                System.out.println("Type the email of the lead:");
+                String email = input = inputScanner.nextLine();
 
-            System.out.println("Type the company's name of the lead:");
-            String companyName = input = inputScanner.nextLine();
+                System.out.println("Type the phone number of the lead:");
+                String phoneNumber = input = inputScanner.nextLine();
+
+                System.out.println("Type the company's name of the lead:");
+                String companyName = input = inputScanner.nextLine();
 
 
-            if (!input.equalsIgnoreCase("BACK")) {
+                if (!input.equalsIgnoreCase("BACK")) {
 
-                System.out.println("A new lead is going to create, are you sure it's correct? y/n");
-                input = inputScanner.nextLine();
+                    System.out.println("A new lead is going to create, are you sure it's correct? y/n");
+                    input = inputScanner.nextLine();
 
-                if (input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("y")) {
+                    if (input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("y")) {
 
-                    System.out.println("Great");
+                        System.out.println("Great");
 
-                    leadService.save(new Lead( name, role, email, phoneNumber, companyName));
-                    System.out.println("Lead was created successfully\n");
+                        leadService.save(new Lead(name, role, email, phoneNumber, companyName));
+                        System.out.println("Lead was created successfully\n");
+                    }
+                    System.out.println("What do you want to do next? Create another Lead or go back?");
+                    input = inputScanner.nextLine();
                 }
-                System.out.println("What do you want to do next? Create another Lead or go back?");
-                input = inputScanner.nextLine();
+            }catch(Exception e){
+                System.err.println("Wrong command");
             }
         }
     }
