@@ -1,7 +1,9 @@
 package com.ironhack.team1crmproject.view;
 
 import com.ironhack.team1crmproject.model.Lead;
+import com.ironhack.team1crmproject.model.TruckType;
 import com.ironhack.team1crmproject.service.LeadService;
+import com.ironhack.team1crmproject.service.OpportunityService;
 import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
@@ -11,10 +13,12 @@ public class CrmDashboard {
 
     private final Scanner inputScanner;
     private final LeadService leadService;
+    private final OpportunityService opportunityService;
 
-    public CrmDashboard(Scanner inputScanner, LeadService leadService) {
+    public CrmDashboard(Scanner inputScanner, LeadService leadService, OpportunityService opportunityService) {
         this.inputScanner = inputScanner;
         this.leadService = leadService;
+        this.opportunityService = opportunityService;
     }
 
 //Show leads antiguo
@@ -190,6 +194,28 @@ public class CrmDashboard {
     }
 
     public void convertLeadToOpportunity(long parseLong) {
+        var input = "";
+        while (!input.equalsIgnoreCase("BACK")) { //TODO or have finished creating the opportunity) {
+            try {
+                var lead = leadService.findLeadById(parseLong);
+                System.out.println("Please, indicate the type of Truck you are interested in:" +
+                        "[0] - Hybrid Truck" +
+                        "[1] - Flatbed Truck " +
+                        "[2] - Box Truck");
+                TruckType truckType = TruckType.values()[Integer.parseInt(input = inputScanner.nextLine())];
+                //var opportunity = OpportunityService.createOpportunity(lead);
+                System.out.println("Please, indicate the quantity of trucks you are interested in:");
+                int quantity = Integer.parseInt(input = inputScanner.nextLine());
+
+                //var opportunity = opportunityService.createOpportunity(lead, truckType, quantity);
+                //opportunityService.save(opportunity);
+            } catch (IllegalStateException e) {
+                System.out.println("Lead is not in the database");
+            } catch (IndexOutOfBoundsException eg) {
+                System.out.println("number does not match with truck type, try again");
+            }
+        }
+
     }
 
     public void checkOneOpportunity(long parseLong) {

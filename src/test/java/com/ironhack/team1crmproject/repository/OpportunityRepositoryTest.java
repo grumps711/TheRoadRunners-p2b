@@ -1,17 +1,20 @@
 package com.ironhack.team1crmproject.repository;
 
+import com.ironhack.team1crmproject.Team1CrmProjectApplication;
 import com.ironhack.team1crmproject.model.*;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class OpportunityRepositoryTest {
+    @MockBean
+    Team1CrmProjectApplication team1CrmProjectApplication;
     @Autowired
     OpportunityRepository opportunityRepository;
     @Autowired
@@ -23,20 +26,47 @@ class OpportunityRepositoryTest {
     @BeforeEach
     void setUp() {
         // Creation of Leads
+        //var ironhackBusiness = accountRepository.save(new Account(2, "Ironhack", "England", "London", IndustryType.MANUFACTURING));
+
         var basicLeads = List.of(
                 new Lead("Eugeni", "Ironhacker", "eugeni@gmail.com", "666666666", "Ironhack"),
                 new Lead("Jose", "Ironhacker", "jose@gmail.com", "666666666", "Ironhack"),
                 new Lead("Silvi", "Catalonier", "silvi@gmail.com", "999999999", "CataloniaHotels")
         );
-        leadRepository.saveAll(basicLeads);
-        var eugeniLead = basicLeads.get(0);
-        var joseLead = basicLeads.get(1);
-        var silviLead = basicLeads.get(2);
+        var allLeads = leadRepository.saveAll(basicLeads);
+        var eugeniLead = allLeads.get(0);
+        var joseLead = allLeads.get(1);
+        var silviLead = allLeads.get(2);
+        /*
+        var contacts = List.of(
+                new Contact(eugeniLead.getName(), eugeniLead.getRole(), eugeniLead.getEmail(), eugeniLead.getPhoneNumber()),
+                new Contact(joseLead.getName(), joseLead.getRole(), joseLead.getEmail(), joseLead.getPhoneNumber()),
+                new Contact(silviLead.getName(), silviLead.getRole(), silviLead.getEmail(), silviLead.getPhoneNumber())
+        );
+        contactRepository.saveAll(contacts);
+
+        var eugeniContact = contacts.get(0);
+        var joseContact = contacts.get(1);
+        var silviContact = contacts.get(2);
 
         var opportunities = List.of(
-                createANewOpportunity(eugeniLead, TruckType.FLATBED, 6),
-                createANewOpportunity(joseLead, TruckType.HYBRID, 2),
-                createANewOpportunity(silviLead, TruckType.FLATBED, 30)
+            new Opportunity(TruckType.FLATBED, 6, new Contact(eugeniLead.getName(), eugeniLead.getRole(), eugeniLead.getEmail(), eugeniLead.getPhoneNumber())),
+            new Opportunity(TruckType.HYBRID, 6, new Contact(joseLead.getName(), joseLead.getRole(), joseLead.getEmail(), joseLead.getPhoneNumber())),
+            new Opportunity(TruckType.BOX, 6, new Contact(silviLead.getName(), silviLead.getRole(), silviLead.getEmail(), silviLead.getPhoneNumber()))
+        );
+        opportunityRepository.saveAll(opportunities);
+
+        var accounts = List.of(
+                getAccount(eugeniLead.getCompanyName()),
+                getAccount(silviLead.getCompanyName())
+        );
+        accountRepository.saveAll(accounts);
+         */
+
+        var opportunities = List.of(
+                createNewOpportunity(eugeniLead, TruckType.FLATBED, 6),
+                createNewOpportunity(joseLead, TruckType.HYBRID, 2),
+                createNewOpportunity(silviLead, TruckType.FLATBED, 30)
         );
         opportunityRepository.saveAll(opportunities);
         /*
@@ -92,21 +122,31 @@ class OpportunityRepositoryTest {
         // Creation of new lead
         var alfredLead = leadRepository.save(new Lead("Alfred", "Ironhacker", "alfred@gmail.com", "666666666", "Ironhack"));
         // convert 134
-        var alfredOpportunity = opportunityRepository.save(createANewOpportunity(alfredLead, TruckType.BOX, 6));
+        var alfredOpportunity = opportunityRepository.save(createNewOpportunity(alfredLead, TruckType.BOX, 6));
+
+        // NO
+        /*
+        Contact decisionMaker = getContact(alfredLead);
+        var alfredOpportunity = opportunityRepository.save(new Opportunity(TruckType.BOX, 6, decisionMaker));
+        Account account = getAccount(alfredLead.getCompanyName());
+        account.getContactList().add(decisionMaker);
+        account.getOpportunityList().add(alfredOpportunity);
+        */
         // tests
         assertNull(leadRepository.findLeadByLeadId(alfredLead.getLeadId()));
         assertEquals(alfredOpportunity, opportunityRepository.findOpportunityByOpportunityId(alfredOpportunity.getOpportunityId()));
     }
 
-    private Opportunity createANewOpportunity(Lead lead, TruckType truck, int quantity) {
+    private Opportunity createNewOpportunity(Lead lead, TruckType truck, int quantity) {
         // create contact
         Contact decisionMaker = getContact(lead);
         // create opportunity
         Opportunity opportunity = new Opportunity(truck, quantity, decisionMaker);
         // create account
         Account account = getAccount(lead.getCompanyName());
-        account.getContactList().add(decisionMaker);
-        account.getOpportunityList().add(opportunity);
+
+        //account.getContactList().add(decisionMaker);
+        //account.getOpportunityList().add(opportunity);
 
         // FILL RELATIONS
         // Contact

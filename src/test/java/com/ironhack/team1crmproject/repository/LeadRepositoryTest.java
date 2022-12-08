@@ -20,14 +20,16 @@ class LeadRepositoryTest {
 
     @Autowired
     LeadRepository leadRepository;
-
+    List<Lead> sth;
     @BeforeEach
     void setUp() {
         var basicLeads = List.of(
                 new Lead("Eugeni", "Ironhacker", "eugeni@gmail.com", "666666666", "Ironhack"),
                 new Lead("Jose", "Ironhacker", "jose@gmail.com", "666666666", "Ironhack")
         );
-        leadRepository.saveAll(basicLeads);
+        sth = leadRepository.saveAll(basicLeads);
+        //eugeniLead = basicLeads.get(0).getLeadId();
+        var joseLead = basicLeads.get(1).getLeadId();
     }
     @AfterEach
     void tearDown() {

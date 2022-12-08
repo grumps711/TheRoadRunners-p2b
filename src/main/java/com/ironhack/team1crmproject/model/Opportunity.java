@@ -4,7 +4,9 @@ import com.ironhack.team1crmproject.repository.ContactRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.cdi.Eager;
 
 import javax.persistence.*;
 
@@ -33,6 +35,7 @@ public class Opportunity {
     private Contact decisionMaker;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn
     private Account account;
 
     public Opportunity(TruckType truck, int quantity, Contact decisionMaker) {
