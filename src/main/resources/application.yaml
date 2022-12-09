@@ -8,6 +8,7 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create
+      #enable_lazy_load_no_trans: true
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect

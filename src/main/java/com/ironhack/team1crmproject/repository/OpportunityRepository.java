@@ -14,4 +14,5 @@ public interface OpportunityRepository extends JpaRepository<Opportunity, Long>{
     List<Opportunity> findOpportunityByTruck(TruckType truck);
     List<Opportunity> findOpportunityByQuantity(int quantity);
     List<Opportunity> findOpportunityByStatus(StatusType status);
+
 }

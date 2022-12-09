@@ -30,6 +30,13 @@ public class LeadService {
             System.out.println("Not Found");
         }
     }
+    public Lead findLeadById(Long id) {
+        //TODO check if the method before is equal to this one
+        Optional<Lead> lead = leadRepository.findById(id);
+        if (lead.isEmpty())
+            throw new IllegalArgumentException();
+        return lead.get();
+    }
 
     public void save(Lead lead) {
         leadRepository.save(lead);

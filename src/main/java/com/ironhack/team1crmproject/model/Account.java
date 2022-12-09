@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -28,22 +29,19 @@ public class Account {
     @Column(name = "country")
     private String country;
 
+    @Column (name = "balance")
+    private Double balance;
     @Column(name = "city")
     private String city;
 
     @Column(name = "industry_type")
     private IndustryType industryType;
 
-
-//    @ToString.Exclude
     @OneToMany(mappedBy = "account")
     private List<Contact> contactList;
 
-//    @ToString.Exclude
     @OneToMany(mappedBy = "account")
     private List<Opportunity> opportunityList;
-
-
 
     public Account(int numberOfEmployees, String companyName, String country, String city, IndustryType industryType) {
         this.numberOfEmployees = numberOfEmployees;
@@ -51,6 +49,8 @@ public class Account {
         this.country = country;
         this.city = city;
         this.industryType = industryType;
+        contactList = new ArrayList<>();
+        opportunityList = new ArrayList<>();
     }
 }
 

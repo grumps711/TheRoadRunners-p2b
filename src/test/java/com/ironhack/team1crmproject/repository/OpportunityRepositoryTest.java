@@ -1,135 +1,121 @@
 package com.ironhack.team1crmproject.repository;
 
+import com.ironhack.team1crmproject.Team1CrmProjectApplication;
 import com.ironhack.team1crmproject.model.*;
 import org.junit.jupiter.api.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+@SpringBootTest
 class OpportunityRepositoryTest {
+    @MockBean
+    Team1CrmProjectApplication team1CrmProjectApplication;
+    @Autowired
     OpportunityRepository opportunityRepository;
+    @Autowired
     ContactRepository contactRepository;
+    @Autowired
     LeadRepository leadRepository;
+    @Autowired
     AccountRepository accountRepository;
+    List<Lead> totalLeads = new ArrayList<>();
+    List<Opportunity> totalOpportunities = new ArrayList<>();
+    List<Contact> totalContacts = new ArrayList<>();
+    List<Account> totalAccounts = new ArrayList<>();
+
+    /**
+     * The way we convert Leads into Opportunities to avoid any Lazy or Persistent is without passing a variable as the argument,
+     * instead creating it separated and pass it by getting it from the repository with id saved in a list as a field
+     */
     @BeforeEach
     void setUp() {
-        // Creation of Leads
-        var basicLeads = List.of(
-                new Lead("Eugeni", "Ironhacker", "eugeni@gmail.com", "666666666", "Ironhack"),
-                new Lead("Jose", "Ironhacker", "jose@gmail.com", "666666666", "Ironhack"),
-                new Lead("Silvi", "Catalonier", "silvi@gmail.com", "999999999", "CataloniaHotels")
-        );
-        leadRepository.saveAll(basicLeads);
-        var eugeniLead = basicLeads.get(0);
-        var joseLead = basicLeads.get(1);
-        var silviLead = basicLeads.get(2);
+        totalLeads.add(leadRepository.save(new Lead("Eugeni", "Ironhacker", "eugeni@gmail.com", "666666666", "Ironhack")));
+        totalLeads.add(leadRepository.save(new Lead("Jose", "Ironhacker", "jose@gmail.com", "666666666", "Ironhack")));
+        totalLeads.add(leadRepository.save(new Lead("Silvi", "Catalonier", "silvi@gmail.com", "999999999", "CataloniaHotels")));
 
-        // Transform Lead to Opportunity
-        var opportunities = List.of(
-                createANewOpportunity(eugeniLead, TruckType.BOX, 6),
-                createANewOpportunity(joseLead, TruckType.FLATBED, 13),
-                createANewOpportunity(silviLead, TruckType.HYBRID, 30)
-        );
-        opportunityRepository.saveAll(opportunities);
+        totalContacts.add(getContact(totalLeads.get(0)));
+        totalContacts.add(getContact(totalLeads.get(1)));
+        totalContacts.add(getContact(totalLeads.get(2)));
 
-        // Creation of Accounts just after created an opportunity
-        var accounts = List.of(
-                getAccount(eugeniLead.getCompanyName()),
-                getAccount(silviLead.getCompanyName())
-        );
-        accountRepository.saveAll(accounts);
+        totalAccounts.add(getAccount(totalLeads.get(0).getCompanyName()));
+        totalAccounts.add(getAccount(totalLeads.get(1).getCompanyName()));
+        totalAccounts.add(getAccount(totalLeads.get(2).getCompanyName()));
+
+        totalOpportunities.add(opportunityRepository.save(createNewOpportunity(leadRepository.findLeadByLeadId(totalLeads.get(0).getLeadId()), TruckType.BOX,6)));
+        opportunityRepository.findOpportunityByOpportunityId(totalOpportunities.get(0).getOpportunityId()).setDecisionMaker(contactRepository.findContactByContactId(totalContacts.get(0).getContactId()));
+        opportunityRepository.findOpportunityByOpportunityId(totalOpportunities.get(0).getOpportunityId()).setAccount(accountRepository.findAccountByAccountId(totalAccounts.get(0).getAccountId()));
+        //leadRepository.delete(leadRepository.findLeadByLeadId(totalLeads.get(0).getLeadId()));
+
+        totalOpportunities.add(opportunityRepository.save(createNewOpportunity(leadRepository.findLeadByLeadId(totalLeads.get(1).getLeadId()), TruckType.FLATBED,30)));
+        opportunityRepository.findOpportunityByOpportunityId(totalOpportunities.get(1).getOpportunityId()).setDecisionMaker(contactRepository.findContactByContactId(totalContacts.get(1).getContactId()));
+        opportunityRepository.findOpportunityByOpportunityId(totalOpportunities.get(1).getOpportunityId()).setAccount(accountRepository.findAccountByAccountId(totalAccounts.get(1).getAccountId()));
+        //leadRepository.delete(leadRepository.findLeadByLeadId(totalLeads.get(1).getLeadId()));
+
+        totalOpportunities.add(opportunityRepository.save(createNewOpportunity(leadRepository.findLeadByLeadId(totalLeads.get(2).getLeadId()), TruckType.BOX,15)));
+        opportunityRepository.findOpportunityByOpportunityId(totalOpportunities.get(2).getOpportunityId()).setDecisionMaker(contactRepository.findContactByContactId(totalContacts.get(2).getContactId()));
+        opportunityRepository.findOpportunityByOpportunityId(totalOpportunities.get(2).getOpportunityId()).setAccount(accountRepository.findAccountByAccountId(totalAccounts.get(2).getAccountId()));
+        //leadRepository.delete(leadRepository.findLeadByLeadId(totalLeads.get(2).getLeadId()));
     }
     @AfterEach
     void tearDown() {
         opportunityRepository.deleteAll();
+        leadRepository.deleteAll();
+        contactRepository.deleteAll();
+        accountRepository.deleteAll();
     }
-
-    @Nested
-    @DisplayName("Check SetUp")
-    class checkSetUp {
-        @Test
-        void checkTotalLeadsAfterCreateOpportunity() {
-            assertEquals(1, leadRepository.findAll().size());
-        }
-        @Test
-        void checkTotalOpportunities() {
-            assertEquals(1, opportunityRepository.findAll().size());
-        }
-        @Test
-        void checkTotalContacts() {
-            assertEquals(1, contactRepository.findAll().size());
-        }
-        @Test
-        void checkTotalAccounts() {
-            assertEquals(1, accountRepository.findAll().size());
-        }
-    }
-
     @Test
-    void OpportunityCreationTest() {
-        // Creation of new lead
-        var alfredLead = new Lead("Alfred", "Ironhacker", "alfred@gmail.com", "666666666", "Ironhack");
-        alfredLead = leadRepository.save(alfredLead);
-
-        // convert 134
-        var alfredOpportunity = createANewOpportunity(alfredLead, TruckType.BOX, 6);
-        alfredOpportunity = opportunityRepository.save(alfredOpportunity);
-        assertNull(leadRepository.findLeadByLeadId(alfredLead.getLeadId()));
-        assertEquals(alfredOpportunity, opportunityRepository.findOpportunityByOpportunityId(alfredOpportunity.getOpportunityId()));
-
-        // after opportunity creation, account must be created or updated
-        Account account = getAccount(alfredLead.getCompanyName());
-        assertEquals(account, accountRepository.findAccountByAccountId(account.getAccountId()));
-        // add opportunity and contact to the Account
-        account.getOpportunityList().add(alfredOpportunity);
-        account.getContactList().add(getContact(alfredLead));
+    void checkTotalLeadsAfterCreateOpportunity() {
+        assertEquals(0, leadRepository.findAll().size());
     }
-    private Opportunity createANewOpportunity(Lead lead, TruckType truck, int quantity) {
-        Opportunity opportunity;
-        Contact decisionMaker = getContact(lead);
-        opportunity = new Opportunity(truck, quantity, decisionMaker);
-        leadRepository.delete(leadRepository.findLeadByLeadId(lead.getLeadId()));
-        return opportunity;
+    @Test
+    void checkTotalOpportunities() {
+        assertEquals(3, opportunityRepository.findAll().size());
+    }
+    @Test
+    void checkTotalContacts() {
+        assertEquals(3, contactRepository.findAll().size());
+    }
+    @Test
+    void checkTotalAccounts() {
+        assertEquals(2, accountRepository.findAll().size());
+    }
+    @Test
+    void opportunityCreationTest() {
+        // STEP 1
+        totalLeads.add(leadRepository.save(new Lead("Alfred", "Ironhacker", "alfred@gmail.com", "666666666", "Ironhack")));
+        // STEP 2
+        totalContacts.add(getContact(totalLeads.get(3)));
+        // STEP 3
+        totalAccounts.add(getAccount(totalLeads.get(3).getCompanyName()));
+        // STEP 4
+        var alfredOpportunity = opportunityRepository.save(createNewOpportunity(totalLeads.get(3), TruckType.BOX, 100));
+        opportunityRepository.findOpportunityByOpportunityId(alfredOpportunity.getOpportunityId()).setDecisionMaker(contactRepository.findContactByContactId(totalContacts.get(3).getContactId()));
+        opportunityRepository.findOpportunityByOpportunityId(alfredOpportunity.getOpportunityId()).setAccount(accountRepository.findAccountByAccountId(totalAccounts.get(3).getAccountId()));
+
+        assertEquals(0, leadRepository.findAll().size());
+        assertEquals(4, contactRepository.findAll().size());
+        assertEquals(2, accountRepository.findAll().size());
+        assertEquals(4, opportunityRepository.findAll().size());
+    }
+
+    private Opportunity createNewOpportunity(Lead lead, TruckType truck, int quantity) {
+        leadRepository.delete(lead);
+        return new Opportunity(truck, quantity);
     }
     private Account getAccount(String companyName) {
-        var accounts = accountRepository.findAll();
-        int i = 0;
-        boolean found = false;
-        Account account = null;
-        while (i < accounts.size() && !found) {
-            if (companyName.equals(accounts.get(i).getCompanyName())) {
-                account = accounts.get(i);
-                found = true;
-            }
-            i++;
-        }
-        if (!found) {
-            // input from user
-            account = new Account(2, companyName, "England", "London", IndustryType.MANUFACTURING);
-            accountRepository.save(account);
-        }
-        return account;
+        Optional<Account> account = accountRepository.findAccountsByCompanyName(companyName);
+        if (account.isEmpty())
+            return (accountRepository.save(new Account(2, companyName, "England", "London", IndustryType.MANUFACTURING)));
+        return account.get();
     }
     private Contact getContact(Lead lead) {
-        var contacts = contactRepository.findAll();
-        int contact = 0;
-        boolean found = false;
-        Contact decisionMaker = null;
-        while (contact < contacts.size() && !found) {
-            if (lead.getName().equals(contacts.get(contact).getName())) {
-                decisionMaker = contacts.get(contact);
-                found = true;
-            }
-            contact++;
-        }
-        if (!found) {
-            decisionMaker = new Contact(lead.getName(), lead.getRole(), lead.getEmail(), lead.getPhoneNumber());
-            contactRepository.save(decisionMaker);
-        }
-        return decisionMaker;
+        Optional<Contact> decisionMaker = contactRepository.findContactByName(lead.getName());
+        if (decisionMaker.isEmpty())
+            return contactRepository.save(new Contact(lead.getName(), lead.getRole(), lead.getEmail(), lead.getPhoneNumber()));
+        return decisionMaker.get();
     }
-    @Test
-    void
 }

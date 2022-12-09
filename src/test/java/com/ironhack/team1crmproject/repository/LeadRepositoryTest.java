@@ -1,58 +1,59 @@
 package com.ironhack.team1crmproject.repository;
 
+import com.ironhack.team1crmproject.Team1CrmProjectApplication;
 import com.ironhack.team1crmproject.model.Lead;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class LeadRepositoryTest {
-
+    @MockBean
+    Team1CrmProjectApplication team1CrmProjectApplication;
     @Autowired
     LeadRepository leadRepository;
-
+    List<Lead> totalLeads = new ArrayList<>();
     @BeforeEach
     void setUp() {
-        var basicLeads = List.of(
-                new Lead("Eugeni", "Ironhacker", "eugeni@gmail.com", "666666666", "Ironhack"),
-                new Lead("Jose", "Ironhacker", "jose@gmail.com", "666666666", "Ironhack")
-        );
-        leadRepository.saveAll(basicLeads);
+        totalLeads.add(leadRepository.save(new Lead("Eugeni", "Ironhacker", "eugeni@gmail.com", "666666666", "Ironhack")));
+        totalLeads.add(leadRepository.save(new Lead("Jose", "Ironhacker", "jose@gmail.com", "666666666", "Ironhack")));
     }
     @AfterEach
     void tearDown() {
         leadRepository.deleteAll();
     }
+
+    @Test
+    void getTotalLeadsAfterDeleteOne() {
+        var sizeBeforeDelete = leadRepository.count();
+        leadRepository.delete(totalLeads.get(0));
+        assertEquals(sizeBeforeDelete - 1, leadRepository.count());
+    }
     @Test
     void getTotalLeads() {
         assertEquals(2, leadRepository.count());
     }
+
     @Test
     void getTotalLeadsAfterAddOne() {
-        var alfredLead = new Lead("Alfred", "Ironhacker", "alfred@gmail.com", "666666666", "Ironhack");
-        alfredLead = leadRepository.save(alfredLead);
-        assertEquals("Alfred", (alfredLead.getName()));
+        totalLeads.add(leadRepository.save(new Lead("Alfred", "Ironhacker", "alfred@gmail.com", "666666666", "Ironhack")));
+        assertEquals("Alfred", (totalLeads.get(2).getName()));
         assertEquals(3, leadRepository.count());
     }
-    @Test
-    void getTotalLeadsAfterDeleteOne() {
-        var sizeBeforeDelete = leadRepository.count();
-        leadRepository.delete(leadRepository.findLeadByLeadId(1L));
-        assertEquals(sizeBeforeDelete - 1, leadRepository.count());
-    }
+
     @Test
     void findByCompanyName() {
-        var tmpLead = new Lead("Maria", "Ironhacker", "maria@gmail.com", "666666666", "Ironhack");
-        leadRepository.save(tmpLead);
-        var ironhackLeaders = leadRepository.findByCompanyName("ironhack");
+        totalLeads.add(leadRepository.save(new Lead("Maria", "Ironhacker", "maria@gmail.com", "666666666", "Ironhack")));
+        var ironhackLeaders = leadRepository.findByCompanyName("Ironhack");
         for (Lead i : ironhackLeaders)
             System.out.println(i.getName());
         assertEquals(3, ironhackLeaders.size());
     }
+
 }
