@@ -7,6 +7,10 @@ import com.ironhack.team1crmproject.repository.LeadRepository;
 import com.ironhack.team1crmproject.repository.OpportunityRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
 @Service
 @AllArgsConstructor
 public class OpportunityService {
@@ -28,4 +32,17 @@ public class OpportunityService {
         opportunityRepository.save(opportunity);
     }
 
+    public void showAllOpportunities(){
+        List<Opportunity> opportunities = opportunityRepository.findAll();
+        opportunities.forEach(opportunity -> System.out.println(opportunity.toString()));
+    }
+
+    public void showOpportunityById(Long number) {
+        Optional<Opportunity> opportunity = opportunityRepository.findById(number);
+        if(opportunity.isPresent()){
+            System.out.println(opportunity.get().toString());
+        }else{
+            System.out.println("Not Found");
+        }
+    }
 }

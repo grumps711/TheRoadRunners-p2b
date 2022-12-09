@@ -21,17 +21,35 @@ public class MainDashboard {
             try {
                 System.out.println(":::: CRM ::::");
                 System.out.println("""
-                        1. To CREATE lead type -> new lead
-                        2. To CHECK a specific lead type -> lookup lead (lead's id)
-                        3. To SHOW all leads on screen type -> show leads
-                        4. To CONVERT a known lead to an opportunity type -> convert (lead's id of the lead you want to convert)
-                        5. To CHECK a specific opportunity type -> lookup opportunity (opportunity's id)
-                        6. To EXIT please type -> exit
+                        --Lead Creation--
+                        To create lead type -> NEW LEAD
+                        --Lead Conversion--
+                        To CONVERT a known lead to an opportunity type -> CONVERT (followed by lead's id for conversion)
+                        
+                        --Show All--
+                        To show all leads on screen type -> SHOW LEADS
+                        To show all contacts on screen type -> SHOW CONTACTS
+                        To show all accounts on screen type -> SHOW ACCOUNTS
+                        To show all opportunities on screen type -> SHOW OPPORTUNITIES
+                        
+                        --Lookup by id--
+                        To check a specific lead type -> LOOKUP LEAD (followed by lead's id)
+                        To check a specific contact type -> LOOKUP CONTACT (followed by lead's id)
+                        To check a specific account type -> LOOKUP ACCOUNT (followed by lead's id)
+                        To check a specific opportunity type -> LOOKUP OPPORTUNITY (followed by lead's id)
+                        
+                        --Exit--
+                        To exit please type -> EXIT
                         """);
                 input = inputScanner.nextLine();
                 String[] inputArray = input.split(" ");
-//            option 1 - se guarda va bien
-                if ((inputArray[0] + " " + inputArray[1]).equalsIgnoreCase("NEW LEAD")) {
+//            option 1
+                if (input.equalsIgnoreCase("EXIT")) {
+                    System.out.println("Thanks for using this CRM application.");
+                    System.exit(0);
+                }
+
+                else if ((inputArray[0] + " " + inputArray[1]).equalsIgnoreCase("NEW LEAD")) {
                     System.out.println("you want to create a new lead");
                     crmDashboard.createLead();
                 }
@@ -46,16 +64,22 @@ public class MainDashboard {
                     System.out.println("you want to convert a lead (with lead's id " + inputArray[1] + ") to an opportunity");
                     crmDashboard.convertLeadToOpportunity(Long.parseLong(inputArray[1]));
                 }
-//            option 5
-                else if ((inputArray[0] + " " + inputArray[1]).equalsIgnoreCase("LOOKUP OPPORTUNITY")) {
-                    System.out.println("you want to check a specific opportunity with id " + inputArray[2]);
-                    crmDashboard.checkOneOpportunity(Long.parseLong(inputArray[2]));
-                }
+//
+//                options 7 8 9
+                else if (((inputArray[0] + " " + inputArray[1]).equalsIgnoreCase("LOOKUP ACCOUNT"))) {
+                    crmDashboard.showLead(Long.parseLong(inputArray[2]));}
+                else if ((inputArray[0] + " " + inputArray[1]).equalsIgnoreCase("SHOW ACCOUNTS")) {
+                    crmDashboard.showAccount(null);}
+                else if (((inputArray[0] + " " + inputArray[1]).equalsIgnoreCase("LOOKUP CONTACT"))) {
+                        crmDashboard.showLead(Long.parseLong(inputArray[2]));}
+                else if ((inputArray[0] + " " + inputArray[1]).equalsIgnoreCase("SHOW CONTACTS")) {
+                        crmDashboard.showContact(null);}
+                else if (((inputArray[0] + " " + inputArray[1]).equalsIgnoreCase("LOOKUP OPPORTUNITY"))) {
+                            crmDashboard.showLead(Long.parseLong(inputArray[2]));}
+                else if ((inputArray[0] + " " + inputArray[1]).equalsIgnoreCase("SHOW OPPORTUNITIES")) {
+                            crmDashboard.showOpportunity(null);}
 //            option 6
-                else if (input.equalsIgnoreCase("EXIT")) {
-                    System.out.println("Thanks for using this CRM application.");
-                    System.exit(0);
-                } else {
+                else {
                     System.out.println("Unrecognized command!");
                 }
             }catch (Exception e){
