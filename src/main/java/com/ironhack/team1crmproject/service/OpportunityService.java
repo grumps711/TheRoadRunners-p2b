@@ -45,4 +45,28 @@ public class OpportunityService {
             System.out.println("Not Found");
         }
     }
+
+    public void setOpportunityStatus(String status, String id) {
+        var a = new Opportunity();
+        a = opportunityRepository.findOpportunityByOpportunityId(Long.valueOf(id));
+        if(status.equalsIgnoreCase("CLOSED-WON")){
+            a.setStatus(StatusType.CLOSED_WON);
+            System.out.println("Status type changed to closed-won");
+        }else{
+            a.setStatus(StatusType.CLOSED_LOST);
+            System.out.println("Status type changed to closed-lost");
+        }
+    }
+
+//    public void checkOpportunityBy(String s) {
+//        if(s.equalsIgnoreCase("PRODUCT")){
+//            opportunityRepository.findAllByOportunityByTruck();
+//        } else if (s.equalsIgnoreCase("COUNTRY")) {
+//            opportunityRepository.findAllByOpportunityAndAccount_Country();
+//        } else if (s.equalsIgnoreCase("CITY")){
+//            opportunityRepository.findAllByOpportunityAndAccount_City();
+//        } else {
+//            opportunityRepository.findAllByOpportunityAndAccount_IndustryType();
+//        }
+//    }
 }
