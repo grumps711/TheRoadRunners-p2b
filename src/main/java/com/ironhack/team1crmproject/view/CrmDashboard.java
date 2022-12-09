@@ -160,7 +160,7 @@ public class CrmDashboard {
 
                 System.out.println("Type the name of the lead:");
                 String name = input = inputScanner.nextLine();
-
+                //if (input.equalsIgnoreCase("back")) break;
                 System.out.println("Type the role of the lead:");
                 String role = input = inputScanner.nextLine();
 
@@ -205,6 +205,7 @@ public class CrmDashboard {
                         "[1] - Flatbed Truck " +
                         "[2] - Box Truck");
                 TruckType truckType = TruckType.values()[Integer.parseInt(input = inputScanner.nextLine())];
+
                 System.out.println("Please, indicate the quantity of trucks you are interested in:");
                 int quantity = Integer.parseInt(input = inputScanner.nextLine());
 
@@ -220,9 +221,10 @@ public class CrmDashboard {
                 System.out.println("Lead is not in the database");
             } catch (IndexOutOfBoundsException eg) {
                 System.out.println("number does not match with truck type, try again");
+            } catch (NumberFormatException ne) {
+                System.out.println("you did not provide a number");
             }
         }
-
     }
     public Account createAccount(Lead lead) {
         var input = "";
