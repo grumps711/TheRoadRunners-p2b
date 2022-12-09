@@ -5,10 +5,9 @@ spring:
     password: 1r0nh4ck3r
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
-    show-sql: true
+    show-sql: false
     hibernate:
       ddl-auto: update
-      #enable_lazy_load_no_trans: true
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect

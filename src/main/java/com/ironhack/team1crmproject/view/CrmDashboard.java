@@ -214,8 +214,8 @@ public class CrmDashboard {
                     if (input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("y")) {
 
                         System.out.println("Great");
-
                         leadService.save(new Lead(name, role, email, phoneNumber, companyName));
+
                         System.out.println("Lead was created successfully\n");
 
                         System.out.println("What do you want to do next? Create another Lead or go back?");
