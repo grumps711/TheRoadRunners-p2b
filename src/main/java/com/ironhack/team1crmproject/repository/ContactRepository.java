@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface ContactRepository extends JpaRepository<Contact, Long>{
 
     Optional<Contact> findContactByName(String name);
-    List<Contact> findContactByContactId(Long contactId);
+    Contact findContactByContactId(Long contactId);
     //List<Contact> findContactByName(String name);
     List<Contact> findContactByRole(String Role);
     List<Contact> findContactByEmail(String email);

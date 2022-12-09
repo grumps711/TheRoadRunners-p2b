@@ -35,13 +35,12 @@ public class Opportunity {
     private Contact decisionMaker;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn
     private Account account;
 
-    public Opportunity(TruckType truck, int quantity, Contact decisionMaker) {
+    public Opportunity(TruckType truck, int quantity/*, Contact decisionMaker*/) {
         this.truck = truck;
         this.quantity = quantity;
         this.status = StatusType.OPEN;
-        this.decisionMaker = decisionMaker;
+        //this.decisionMaker = decisionMaker;
     }
 }
