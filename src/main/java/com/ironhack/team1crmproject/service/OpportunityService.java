@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -38,4 +39,17 @@ public class OpportunityService {
         opportunityRepository.save(opportunity);
     }
 
+    public void showAllOpportunities(){
+        List<Opportunity> opportunities = opportunityRepository.findAll();
+        opportunities.forEach(opportunity -> System.out.println(opportunity.toString()));
+    }
+
+    public void showOpportunityById(Long number) {
+        Optional<Opportunity> opportunity = opportunityRepository.findById(number);
+        if(opportunity.isPresent()){
+            System.out.println(opportunity.get().toString());
+        }else{
+            System.out.println("Not Found");
+        }
+    }
 }
