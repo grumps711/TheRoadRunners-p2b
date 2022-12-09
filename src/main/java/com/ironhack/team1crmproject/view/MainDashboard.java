@@ -1,5 +1,6 @@
 package com.ironhack.team1crmproject.view;
 
+import com.ironhack.team1crmproject.utils.TerminalTools;
 import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
@@ -19,7 +20,8 @@ public class MainDashboard {
         var input = "";
         while (!input.equalsIgnoreCase("EXIT")) {
             try {
-                System.out.println(":::: CRM ::::");
+                System.out.println("𝐂𝐑𝐌");
+                System.out.println(TerminalTools.ANSI_BLUE);
                 System.out.println("""
                         --Lead Creation--
                         To create lead type -> NEW LEAD
