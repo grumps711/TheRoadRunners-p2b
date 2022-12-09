@@ -11,5 +11,7 @@ public class TerminalTools {
         public static final String ANSI_YELLOW = "\u001b[33;1m";
         public static final String ANSI_BRIGHT_RED = "\u001b[31;1m";
         public static final String CLEAR_SCREEN = "\033[H\033[2J";
+        public static final String ANSI_CYAN = "\u001b[36;1m";
+        public static final String ANSI_MAGENTA = "\u001b[35;1m";
 }
 
