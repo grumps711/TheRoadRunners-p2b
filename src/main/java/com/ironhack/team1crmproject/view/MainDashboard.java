@@ -1,5 +1,6 @@
 package com.ironhack.team1crmproject.view;
 
+import com.ironhack.team1crmproject.utils.TerminalTools;
 import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
@@ -19,14 +20,20 @@ public class MainDashboard {
         var input = "";
         while (!input.equalsIgnoreCase("EXIT")) {
             try {
-                System.out.println(":::: CRM ::::");
+                System.out.println("𝐂𝐑𝐌");
+                System.out.println(TerminalTools.ANSI_BLUE);
                 System.out.println("""
-                        1. To CREATE lead type -> new lead
-                        2. To CHECK a specific lead type -> lookup lead (lead's id)
-                        3. To SHOW all leads on screen type -> show leads
-                        4. To CONVERT a known lead to an opportunity type -> convert (lead's id of the lead you want to convert)
-                        5. To CHECK a specific opportunity type -> lookup opportunity (opportunity's id)
-                        6. To EXIT please type -> exit
+                                                                          1. To CREATE lead type -> new lead
+                                                
+                                                                          2. To CHECK a specific lead type -> lookup lead (lead's id)
+                                                
+                                                                          3. To SHOW all leads on screen type -> show leads
+                                                
+                                                                          4. To CONVERT a known lead to an opportunity type -> convert (lead's id of the lead you want to convert)
+                                                
+                                                                          5. To CHECK a specific opportunity type -> lookup opportunity (opportunity's id)
+                                      
+                                                                          6. To EXIT please type -> exit
                         """);
                 input = inputScanner.nextLine();
                 String[] inputArray = input.split(" ");
