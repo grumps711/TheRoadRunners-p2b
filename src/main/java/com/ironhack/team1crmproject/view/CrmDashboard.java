@@ -278,4 +278,12 @@ public class CrmDashboard {
             opportunityService.showOpportunityById(number);
         }
     }
+
+    public void setOpportunityStatus(String status,String id) {
+            opportunityService.setOpportunityStatus(status,id);
+    }
+
+//    public void checkCountOpportunityBy(String s) {
+//        opportunityService.checkOpportunityBy(s);
+//    }
 }
