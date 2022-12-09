@@ -45,20 +45,20 @@ class OpportunityRepositoryTest {
         totalAccounts.add(getAccount(totalLeads.get(1).getCompanyName()));
         totalAccounts.add(getAccount(totalLeads.get(2).getCompanyName()));
 
-        totalOpportunities.add(opportunityRepository.save(new Opportunity(TruckType.BOX,6)));
+        totalOpportunities.add(opportunityRepository.save(createNewOpportunity(leadRepository.findLeadByLeadId(totalLeads.get(0).getLeadId()), TruckType.BOX,6)));
         opportunityRepository.findOpportunityByOpportunityId(totalOpportunities.get(0).getOpportunityId()).setDecisionMaker(contactRepository.findContactByContactId(totalContacts.get(0).getContactId()));
         opportunityRepository.findOpportunityByOpportunityId(totalOpportunities.get(0).getOpportunityId()).setAccount(accountRepository.findAccountByAccountId(totalAccounts.get(0).getAccountId()));
-        leadRepository.delete(leadRepository.findLeadByLeadId(totalLeads.get(0).getLeadId()));
+        //leadRepository.delete(leadRepository.findLeadByLeadId(totalLeads.get(0).getLeadId()));
 
-        totalOpportunities.add(opportunityRepository.save(new Opportunity(TruckType.FLATBED,30)));
+        totalOpportunities.add(opportunityRepository.save(createNewOpportunity(leadRepository.findLeadByLeadId(totalLeads.get(1).getLeadId()), TruckType.FLATBED,30)));
         opportunityRepository.findOpportunityByOpportunityId(totalOpportunities.get(1).getOpportunityId()).setDecisionMaker(contactRepository.findContactByContactId(totalContacts.get(1).getContactId()));
         opportunityRepository.findOpportunityByOpportunityId(totalOpportunities.get(1).getOpportunityId()).setAccount(accountRepository.findAccountByAccountId(totalAccounts.get(1).getAccountId()));
-        leadRepository.delete(leadRepository.findLeadByLeadId(totalLeads.get(1).getLeadId()));
+        //leadRepository.delete(leadRepository.findLeadByLeadId(totalLeads.get(1).getLeadId()));
 
-        totalOpportunities.add(opportunityRepository.save(new Opportunity(TruckType.BOX,15)));
+        totalOpportunities.add(opportunityRepository.save(createNewOpportunity(leadRepository.findLeadByLeadId(totalLeads.get(2).getLeadId()), TruckType.BOX,15)));
         opportunityRepository.findOpportunityByOpportunityId(totalOpportunities.get(2).getOpportunityId()).setDecisionMaker(contactRepository.findContactByContactId(totalContacts.get(2).getContactId()));
         opportunityRepository.findOpportunityByOpportunityId(totalOpportunities.get(2).getOpportunityId()).setAccount(accountRepository.findAccountByAccountId(totalAccounts.get(2).getAccountId()));
-        leadRepository.delete(leadRepository.findLeadByLeadId(totalLeads.get(2).getLeadId()));
+        //leadRepository.delete(leadRepository.findLeadByLeadId(totalLeads.get(2).getLeadId()));
     }
     @AfterEach
     void tearDown() {
@@ -88,9 +88,9 @@ class OpportunityRepositoryTest {
         // STEP 1
         totalLeads.add(leadRepository.save(new Lead("Alfred", "Ironhacker", "alfred@gmail.com", "666666666", "Ironhack")));
         // STEP 2
-        totalContacts.add(contactRepository.save(getContact(totalLeads.get(3))));
+        totalContacts.add(getContact(totalLeads.get(3)));
         // STEP 3
-        totalAccounts.add(accountRepository.save(getAccount(totalLeads.get(3).getCompanyName())));
+        totalAccounts.add(getAccount(totalLeads.get(3).getCompanyName()));
         // STEP 4
         var alfredOpportunity = opportunityRepository.save(createNewOpportunity(totalLeads.get(3), TruckType.BOX, 100));
         opportunityRepository.findOpportunityByOpportunityId(alfredOpportunity.getOpportunityId()).setDecisionMaker(contactRepository.findContactByContactId(totalContacts.get(3).getContactId()));

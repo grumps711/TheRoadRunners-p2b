@@ -38,10 +38,10 @@ public class Account {
     private IndustryType industryType;
 
     @OneToMany(mappedBy = "account")
-    private List<Contact> contactList;// = new ArrayList<>();
+    private List<Contact> contactList;
 
     @OneToMany(mappedBy = "account")
-    private List<Opportunity> opportunityList;// = new ArrayList<>();
+    private List<Opportunity> opportunityList;
 
     public Account(int numberOfEmployees, String companyName, String country, String city, IndustryType industryType) {
         this.numberOfEmployees = numberOfEmployees;

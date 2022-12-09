@@ -1,25 +1,27 @@
 package com.ironhack.team1crmproject.view;
 
+import com.ironhack.team1crmproject.model.Account;
+import com.ironhack.team1crmproject.model.IndustryType;
 import com.ironhack.team1crmproject.model.Lead;
 import com.ironhack.team1crmproject.model.TruckType;
+import com.ironhack.team1crmproject.service.AccountService;
+import com.ironhack.team1crmproject.service.ContactService;
 import com.ironhack.team1crmproject.service.LeadService;
 import com.ironhack.team1crmproject.service.OpportunityService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
 
 @Component
+@AllArgsConstructor
 public class CrmDashboard {
 
     private final Scanner inputScanner;
     private final LeadService leadService;
     private final OpportunityService opportunityService;
-
-    public CrmDashboard(Scanner inputScanner, LeadService leadService, OpportunityService opportunityService) {
-        this.inputScanner = inputScanner;
-        this.leadService = leadService;
-        this.opportunityService = opportunityService;
-    }
+    private final ContactService contactService;
+    private final AccountService accountService;
 
 //Show leads antiguo
 //    //    seleccion 1 antigua                                               SHOW ALL
@@ -203,12 +205,17 @@ public class CrmDashboard {
                         "[1] - Flatbed Truck " +
                         "[2] - Box Truck");
                 TruckType truckType = TruckType.values()[Integer.parseInt(input = inputScanner.nextLine())];
-                //var opportunity = OpportunityService.createOpportunity(lead);
                 System.out.println("Please, indicate the quantity of trucks you are interested in:");
                 int quantity = Integer.parseInt(input = inputScanner.nextLine());
 
-                //var opportunity = opportunityService.createOpportunity(lead, truckType, quantity);
-                //opportunityService.save(opportunity);
+                var contact = contactService.createContact(lead);
+                var account = createAccount(lead);
+
+                var opportunity = opportunityService.createOpportunity(lead, truckType, quantity);
+                opportunityService.setOpportunityContact(opportunity, contact);
+                opportunityService.setOpportunityAccount(opportunity, account);
+                System.out.println("Opportunity was created successfully\n");
+                input = "back";
             } catch (IllegalStateException e) {
                 System.out.println("Lead is not in the database");
             } catch (IndexOutOfBoundsException eg) {
@@ -216,6 +223,31 @@ public class CrmDashboard {
             }
         }
 
+    }
+    public Account createAccount(Lead lead) {
+        var input = "";
+        Account account = null;
+
+        while (!input.equalsIgnoreCase("BACK")) {
+            //TODO handle all errors
+            System.out.println("It is time to fill some Company information:");
+            System.out.println("Please, enter the total number of employees:");
+            int numberOfEmployees = Integer.parseInt(input = inputScanner.nextLine());
+            System.out.println("Please, enter the company's country:"); //check?
+            String country = input = inputScanner.nextLine();
+            System.out.println("Please, enter the company's city:"); //check?
+            String city = input = inputScanner.nextLine();
+            System.out.println("Please, indicate the company's type of industry:" +
+                    "[0] - PRODUCE" +
+                    "[1] - ECOMMERCE " +
+                    "[2] - MANUFACTURING" +
+                    "[3] - MEDICAL" +
+                    "[4] - OTHER");
+            IndustryType industryType = IndustryType.values()[Integer.parseInt(input = inputScanner.nextLine())];
+            account = accountService.createAccount(numberOfEmployees, lead.getCompanyName(), country, city, industryType);
+            input = "back";
+        }
+        return account;
     }
 
     public void checkOneOpportunity(long parseLong) {
