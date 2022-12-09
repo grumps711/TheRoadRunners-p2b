@@ -9,8 +9,11 @@ import com.ironhack.team1crmproject.service.ContactService;
 import com.ironhack.team1crmproject.service.LeadService;
 import com.ironhack.team1crmproject.service.OpportunityService;
 import lombok.AllArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
+import java.net.Proxy;
+import java.util.Objects;
 import java.util.Scanner;
 
 @Component
@@ -149,34 +152,66 @@ public class CrmDashboard {
     }
 
     public void createLead() {
+
         var input = "";
-        var activity = "";
+
+        System.out.println("Lead creation");
+        System.out.println("You may now create your lead, you can always type BACK if you want to exit lead creation");
+
         while (!input.equalsIgnoreCase("BACK")) {
 
             try {
+                String[] inputArray;
+                do {
+                    System.out.println("Type first name followed by last name of the lead:");
+                    input = inputScanner.nextLine();
+                    if (input.equalsIgnoreCase("BACK")) break;
+                    inputArray = input.split(" ");
+                } while (!(nameValidation(inputArray[0]) && nameValidation(inputArray[1])));
+                String name = input;
+                if (input.equalsIgnoreCase("BACK")) break;
 
-                System.out.println("Lead creation");
-                System.out.println("You may now create your lead, you can always type BACK if you want to exit lead creation");
 
-                System.out.println("Type the name of the lead:");
-                String name = input = inputScanner.nextLine();
-                //if (input.equalsIgnoreCase("back")) break;
-                System.out.println("Type the role of the lead:");
-                String role = input = inputScanner.nextLine();
+                do {
+                    System.out.println("Type the role of the lead:");
+                    input = inputScanner.nextLine();
+                    if (input.equalsIgnoreCase("BACK")) break;
+                } while (!(nameValidation(input)));
+                String role = input;
+                if (input.equalsIgnoreCase("BACK")) break;
 
-                System.out.println("Type the email of the lead:");
-                String email = input = inputScanner.nextLine();
 
-                System.out.println("Type the phone number of the lead:");
-                String phoneNumber = input = inputScanner.nextLine();
+                do {
+                    System.out.println("Type the email of the lead:");
+                    input = inputScanner.nextLine();
+                    if (input.equalsIgnoreCase("BACK")) break;
+                } while (!(emailValidation(input)));
+                String email = input;
+                if (input.equalsIgnoreCase("BACK")) break;
 
-                System.out.println("Type the company's name of the lead:");
-                String companyName = input = inputScanner.nextLine();
+
+
+                do {
+                    System.out.println("Type the phone number of the lead:");
+                    input = inputScanner.nextLine();
+                    if (input.equalsIgnoreCase("BACK")) break;
+                } while (!(phoneValidation(input)));
+                String phoneNumber = input;
+                if (input.equalsIgnoreCase("BACK")) break;
+
+
+                do {
+                    System.out.println("Type the company's name of the lead:");
+                    input = inputScanner.nextLine();
+                    if (input.equalsIgnoreCase("BACK")) break;
+                } while (!(nameValidation(input)));
+                String companyName = input;
 
 
                 if (!input.equalsIgnoreCase("BACK")) {
 
-                    System.out.println("A new lead is going to create, are you sure it's correct? y/n");
+                    System.out.println("A new lead is going to create, are you sure it's correct?");
+                    System.out.println("Type YES or BACK to go back to the menu");
                     input = inputScanner.nextLine();
 
                     if (input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("y")) {
@@ -185,29 +220,43 @@ public class CrmDashboard {
 
                         leadService.save(new Lead(name, role, email, phoneNumber, companyName));
                         System.out.println("Lead was created successfully\n");
+
+                        System.out.println("What do you want to do next? Create another Lead or go back?");
+                        input = inputScanner.nextLine();
+
                     }
-                    System.out.println("What do you want to do next? Create another Lead or go back?");
-                    input = inputScanner.nextLine();
                 }
-            }catch(Exception e){
+            }catch (IndexOutOfBoundsException o){
+                System.err.println("The name entered is not valid, please try again");
+                System.err.println("Please make sure to write first name and last name");
+            }
+            catch(Exception e){
                 System.err.println("Wrong command");
             }
         }
     }
 
-    public void convertLeadToOpportunity(long parseLong) {
+    public void convertLeadToOpportunity(long leadId) {
         var input = "";
         while (!input.equalsIgnoreCase("BACK")) { //TODO or have finished creating the opportunity) {
             try {
-                var lead = leadService.findLeadById(parseLong);
-                System.out.println("Please, indicate the type of Truck you are interested in:" +
-                        "[0] - Hybrid Truck" +
-                        "[1] - Flatbed Truck " +
-                        "[2] - Box Truck");
-                TruckType truckType = TruckType.values()[Integer.parseInt(input = inputScanner.nextLine())];
+                var lead = leadService.findLeadById(leadId);
 
-                System.out.println("Please, indicate the quantity of trucks you are interested in:");
-                int quantity = Integer.parseInt(input = inputScanner.nextLine());
+                do {
+                    System.out.println("Please, indicate the type of Truck you are interested in:" +
+                            "[0] - Hybrid Truck\n" +
+                            "[1] - Flatbed Truck\n" +
+                            "[2] - Box Truck\n");
+                    input= inputScanner.nextLine();
+                }while (!(Integer.parseInt(input) < 3 && Integer.parseInt(input) > -1));
+                TruckType truckType = TruckType.values()[Integer.parseInt(input)];
+
+                do {
+                    System.out.println("Please, indicate the quantity of trucks you are interested in:");
+                    input = inputScanner.nextLine();
+                } while (!numberValidation(input));
+                int quantity = Integer.parseInt(input);
+
 
                 var contact = contactService.createContact(lead);
                 var account = createAccount(lead);
@@ -232,20 +281,37 @@ public class CrmDashboard {
 
         while (!input.equalsIgnoreCase("BACK")) {
             //TODO handle all errors
-            System.out.println("It is time to fill some Company information:");
-            System.out.println("Please, enter the total number of employees:");
-            int numberOfEmployees = Integer.parseInt(input = inputScanner.nextLine());
-            System.out.println("Please, enter the company's country:"); //check?
-            String country = input = inputScanner.nextLine();
-            System.out.println("Please, enter the company's city:"); //check?
-            String city = input = inputScanner.nextLine();
-            System.out.println("Please, indicate the company's type of industry:" +
-                    "[0] - PRODUCE" +
-                    "[1] - ECOMMERCE " +
-                    "[2] - MANUFACTURING" +
-                    "[3] - MEDICAL" +
-                    "[4] - OTHER");
-            IndustryType industryType = IndustryType.values()[Integer.parseInt(input = inputScanner.nextLine())];
+            System.out.println("It is time to fill some Company information");
+
+            do {
+                System.out.println("Please, enter the total number of employees:");
+                input = inputScanner.nextLine();
+            } while (!numberValidation(input));
+            int numberOfEmployees = Integer.parseInt(input);
+
+            do {
+                System.out.println("Please, enter the company's country:"); //check?
+                input = inputScanner.nextLine();
+            } while (!(nameValidation(input)));
+            String country = input;
+
+            do {
+                System.out.println("Please, enter the company's city:"); //check?
+                input = inputScanner.nextLine();
+            } while (!(nameValidation(input)));
+            String city = input;
+
+            do {
+                System.out.println("Please, indicate the company's type of industry: \n" +
+                        "[0] - PRODUCE\n" +
+                        "[1] - ECOMMERCE\n" +
+                        "[2] - MANUFACTURING\n" +
+                        "[3] - MEDICAL\n" +
+                        "[4] - OTHER\n");
+                input = inputScanner.nextLine();
+            }while(!(Integer.parseInt(input) < 5 && Integer.parseInt(input) > -1));
+            IndustryType industryType = IndustryType.values()[Integer.parseInt(input)];
+
             account = accountService.createAccount(numberOfEmployees, lead.getCompanyName(), country, city, industryType);
             input = "back";
         }
@@ -253,5 +319,47 @@ public class CrmDashboard {
     }
 
     public void checkOneOpportunity(long parseLong) {
+    }
+
+    // validate name
+    public boolean nameValidation(@NotNull String name ) {
+        boolean valid;
+        valid = name.matches("^[A-Z](?=.{1,29}$)[A-Za-z]*(?:\\h+[A-Z][A-Za-z]*)*$");
+        if(!valid){
+            System.err.println("The name entered is not valid, please try again");
+            System.err.println("First letters should be upper case, for example: Thomas");
+        }
+        return valid;
+    }
+
+    // validate email
+    public boolean emailValidation(@NotNull String email ) {
+        boolean valid;
+        valid = email.matches("([a-zA-Z0-9]+(?:[._+-][a-zA-Z0-9]+)*)@([a-zA-Z0-9]+(?:[.-][a-zA-Z0-9]+)*[.][a-zA-Z]{2,})");
+        if(!valid){
+            System.err.println("The email entered is not valid, please try again");
+        }
+        return valid;
+    }
+
+    // validate 9-digit phone
+    public boolean phoneValidation(@NotNull String phone ) {
+        boolean valid;
+        valid = phone.matches("^\\d{9}$");
+        if(!valid){
+            System.err.println("The phone entered is not valid, please try again");
+            System.err.println("Check that your phone is 9 digits long");
+        }
+        return valid;
+    }
+
+    // validate number
+    public boolean numberValidation(@NotNull String number ) {
+        boolean valid;
+        valid = number.matches("^[1-9]\\d*$");
+        if(!valid){
+            System.err.println("Please enter a valid number");
+        }
+        return valid;
     }
 }

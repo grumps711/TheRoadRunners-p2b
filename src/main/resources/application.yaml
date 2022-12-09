@@ -7,7 +7,7 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
       #enable_lazy_load_no_trans: true
     properties:
       hibernate:
