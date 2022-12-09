@@ -15,10 +15,9 @@ public class LeadService {
         this.leadRepository = leadRepository;
     }
 
-    public List<Lead> showAllLeads(){
+    public void showAllLeads(){
         List<Lead> leads = leadRepository.findAll();
         leads.forEach(lead -> System.out.println(lead.toString()));
-        return leads;
     }
 
     public void showLeadById(Long number) {
