@@ -7,6 +7,9 @@ import com.ironhack.team1crmproject.repository.LeadRepository;
 import com.ironhack.team1crmproject.repository.OpportunityRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
 @Service
 @AllArgsConstructor
 public class OpportunityService {
@@ -19,10 +22,17 @@ public class OpportunityService {
         return opportunityRepository.save(new Opportunity(truck, quantity));
     }
     public void setOpportunityContact(Opportunity opportunity, Contact contact) {
-        opportunityRepository.findOpportunityByOpportunityId(opportunity.getOpportunityId()).setDecisionMaker(contactRepository.findContactByContactId(contact.getContactId()));
+        opportunityRepository.findOpportunityByOpportunityId(opportunity.getOpportunityId()).get().setDecisionMaker(contactRepository.findContactByContactId(contact.getContactId()));
     }
     public void setOpportunityAccount(Opportunity opportunity, Account account) {
-        opportunityRepository.findOpportunityByOpportunityId(opportunity.getOpportunityId()).setAccount(accountRepository.findAccountByAccountId(account.getAccountId()));
+        opportunityRepository.findOpportunityByOpportunityId(opportunity.getOpportunityId()).get().setAccount(accountRepository.findAccountByAccountId(account.getAccountId()));
+    }
+    public Opportunity findOpportunityByOpportunityId(Long id) {
+        Optional<Opportunity> opportunity = opportunityRepository.findById(id);
+        if (opportunity.isEmpty())
+            throw new IllegalArgumentException();
+        return opportunity.get();
+
     }
     public void save(Opportunity opportunity) {
         opportunityRepository.save(opportunity);

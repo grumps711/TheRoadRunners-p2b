@@ -1,9 +1,6 @@
 package com.ironhack.team1crmproject.view;
 
-import com.ironhack.team1crmproject.model.Account;
-import com.ironhack.team1crmproject.model.IndustryType;
-import com.ironhack.team1crmproject.model.Lead;
-import com.ironhack.team1crmproject.model.TruckType;
+import com.ironhack.team1crmproject.model.*;
 import com.ironhack.team1crmproject.service.AccountService;
 import com.ironhack.team1crmproject.service.ContactService;
 import com.ironhack.team1crmproject.service.LeadService;
@@ -253,5 +250,12 @@ public class CrmDashboard {
     }
 
     public void checkOneOpportunity(long parseLong) {
+        Opportunity opportunityToShow;
+        try {
+            opportunityToShow = opportunityService.findOpportunityByOpportunityId(parseLong);
+            System.out.println("INFORMATION ABOUT OPPORTUNITY" + opportunityToShow.toString());
+        } catch (IllegalArgumentException e) {
+            System.err.println("Opportunity not present in database");
+        }
     }
 }
