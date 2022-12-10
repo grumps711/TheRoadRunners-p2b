@@ -14,6 +14,7 @@ import java.util.Optional;
 public class ContactService {
     List<Contact> contactList = new ArrayList<>();
     private final ContactRepository contactRepository;
+
     public ContactService(ContactRepository contactRepository) {
         this.contactRepository = contactRepository;
     }
@@ -25,6 +26,7 @@ public class ContactService {
         }
         return decisionMaker.get();
     }
+
     public void showAllContacts(){
 
         List<Contact> contacts = contactList;

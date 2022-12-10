@@ -101,11 +101,8 @@ public class CrmDashboard {
                         System.out.println("Great");
                         leadService.save(new Lead(name, role, email, phoneNumber, companyName));
 
-                        System.out.println("Lead was created successfully\n");
-
-                        System.out.println("What do you want to do next? Create another Lead or go back?");
-                        input = inputScanner.nextLine();
-
+                        System.out.println("Lead was created successfully, going back to the menu\n");
+                        input= "back";
                     }
                 }
             }catch (IndexOutOfBoundsException o){
@@ -125,7 +122,7 @@ public class CrmDashboard {
                 var lead = leadService.findLeadById(leadId);
 
                 do {
-                    System.out.println("Please, indicate the type of Truck you are interested in:" +
+                    System.out.println("Please, indicate the type of Truck you are interested in:\n" +
                             "[0] - Hybrid Truck\n" +
                             "[1] - Flatbed Truck\n" +
                             "[2] - Box Truck\n");
@@ -286,7 +283,11 @@ public class CrmDashboard {
             opportunityService.setOpportunityStatus(status,id);
     }
 
-//    public void checkCountOpportunityBy(String s) {
-//        opportunityService.checkOpportunityBy(s);
-//    }
+    public void checkCountOpportunityBy(String s) {
+        opportunityService.checkOpportunityBy(s);
+    }
+
+    public void changeOpportunityStatus(int id, StatusType status){
+        opportunityService.changeOpportunityStatus(id, status);
+    }
 }

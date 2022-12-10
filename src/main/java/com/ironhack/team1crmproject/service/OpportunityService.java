@@ -8,6 +8,7 @@ import com.ironhack.team1crmproject.repository.OpportunityRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.List;
 
@@ -18,6 +19,8 @@ public class OpportunityService {
     private final LeadRepository leadRepository;
     private final ContactRepository contactRepository;
     private final AccountRepository accountRepository;
+
+
     public Opportunity createOpportunity(Lead lead, TruckType truck, int quantity) {
         leadRepository.delete(lead);
         return opportunityRepository.save(new Opportunity(truck, quantity));
@@ -54,26 +57,31 @@ public class OpportunityService {
     }
 
     public void setOpportunityStatus(String status, String id) {
-        var a = new Opportunity();
-        a = opportunityRepository.findOpportunityByOpportunityId(Long.valueOf(id));
         if(status.equalsIgnoreCase("CLOSED-WON")){
-            a.setStatus(StatusType.CLOSED_WON);
             System.out.println("Status type changed to closed-won");
         }else{
-            a.setStatus(StatusType.CLOSED_LOST);
             System.out.println("Status type changed to closed-lost");
         }
     }
 
-//    public void checkOpportunityBy(String s) {
-//        if(s.equalsIgnoreCase("PRODUCT")){
-//            opportunityRepository.findAllByOportunityByTruck();
-//        } else if (s.equalsIgnoreCase("COUNTRY")) {
-//            opportunityRepository.findAllByOpportunityAndAccount_Country();
-//        } else if (s.equalsIgnoreCase("CITY")){
-//            opportunityRepository.findAllByOpportunityAndAccount_City();
-//        } else {
-//            opportunityRepository.findAllByOpportunityAndAccount_IndustryType();
-//        }
-//    }
+    public void checkOpportunityBy(String s) {
+        if(s.equalsIgnoreCase("PRODUCT")){
+            opportunityRepository.findAllOpportunitiesByTruck();
+        } else if (s.equalsIgnoreCase("COUNTRY")) {
+            opportunityRepository.findAllOpportunitiesByCountry();
+        } else if (s.equalsIgnoreCase("CITY")){
+            opportunityRepository.findAllOpportunitiesByCity();
+        } else {
+            opportunityRepository.findAllOpportunitiesByIndustry();
+        }
+    }
+
+    public void changeOpportunityStatus(int id, StatusType status) {
+        List<Opportunity> allOpportunities = opportunityRepository.findAll();
+        for (Opportunity allOpportunity : allOpportunities) {
+            if (allOpportunity.getOpportunityId() == id) {
+                allOpportunity.setStatus(status);
+            }
+        }
+    }
 }
