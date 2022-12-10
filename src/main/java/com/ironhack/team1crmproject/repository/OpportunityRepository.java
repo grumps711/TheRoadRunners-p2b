@@ -14,12 +14,12 @@ import java.util.Optional;
 @Repository
 public interface OpportunityRepository extends JpaRepository<Opportunity, Long>{
 
-    Opportunity findOpportunityByOpportunityId(Long id);
+    Optional<Opportunity> findOpportunityByOpportunityId(Long id);
 
 //     --Check count of opportunities--
 //
     //A count of all Opportunities by the product
-    @Query(value = "SELECT product, COUNT(id) FROM opportunity GROUP BY product",nativeQuery = true)
+    @Query(value = "SELECT truck, COUNT(id) FROM opportunity GROUP BY truck",nativeQuery = true)
     List<Object[]> findAllOpportunitiesByTruck();
 
     //A count of all Opportunities by country
@@ -39,16 +39,16 @@ public interface OpportunityRepository extends JpaRepository<Opportunity, Long>{
 //    ->by product
 
     //A count of all CLOSED_WON Opportunities by the product
-    @Query(value = "SELECT product, COUNT(id) FROM opportunity WHERE status=CLOSED_WON GROUP BY product",nativeQuery = true)
-    List<Object[]> findAllClosedWonOpportunitiesByProduct();
+    @Query(value = "SELECT truck, COUNT(id) FROM opportunity WHERE status=CLOSED_WON GROUP BY truck",nativeQuery = true)
+    List<Object[]> findAllClosedWonOpportunitiesByTruck();
 
     //A count of all CLOSED_LOST Opportunities by the product
-    @Query(value = "SELECT product, COUNT(id) FROM opportunity WHERE status=CLOSED_LOST GROUP BY product",nativeQuery = true)
-    List<Object[]> findAllClosedLostOpportunitiesByProduct();
+    @Query(value = "SELECT truck, COUNT(id) FROM opportunity WHERE status=CLOSED_LOST GROUP BY truck",nativeQuery = true)
+    List<Object[]> findAllClosedLostOpportunitiesByTruck();
 
     //A count of all OPEN Opportunities by the product
-    @Query(value = "SELECT product, COUNT(id) FROM opportunity WHERE status=OPEN GROUP BY product",nativeQuery = true)
-    List<Object[]> findAllOpenOpportunitiesByProduct();
+    @Query(value = "SELECT truck, COUNT(id) FROM opportunity WHERE status=OPEN GROUP BY truck",nativeQuery = true)
+    List<Object[]> findAllOpenOpportunitiesByTruck();
 
 //    ->by country
 
@@ -110,20 +110,20 @@ public interface OpportunityRepository extends JpaRepository<Opportunity, Long>{
     Optional<Account> findEmployeeCountMin();
 
     //mean quantity of products order
-    @Query(value = "SELECT AVG (product) FROM opportunity AS mean_product_quantity",nativeQuery = true)
-    Optional<Opportunity> findProductQuantityAverage();
+    @Query(value = "SELECT AVG (truck) FROM opportunity AS mean_truck_quantity",nativeQuery = true)
+    Optional<Opportunity> findTruckQuantityAverage();
 
     //median quantity of products order
-    @Query(value = "SELECT product PERCENTILE_CONT(0.5) FROM opportunity AS median_product_quantity",nativeQuery = true)
-    Optional<Opportunity> findProductQuantityMedian();
+    @Query(value = "SELECT truck PERCENTILE_CONT(0.5) FROM opportunity AS median_truck_quantity",nativeQuery = true)
+    Optional<Opportunity> findTruckQuantityMedian();
 
     //maximum quantity of products order
-    @Query(value = "SELECT MAX (product) FROM opportunity AS max_product_quantity",nativeQuery = true)
-    Optional<Opportunity> findProductQuantityMax();
+    @Query(value = "SELECT MAX (truck) FROM opportunity AS max_truck_quantity",nativeQuery = true)
+    Optional<Opportunity> findTruckQuantityMax();
 
     //minimum quantity of products order
-    @Query(value = "SELECT MIN (product) FROM opportunity AS min_product_quantity",nativeQuery = true)
-    Optional<Opportunity> findProductQuantityMin();
+    @Query(value = "SELECT MIN (truck) FROM opportunity AS min_truck_quantity",nativeQuery = true)
+    Optional<Opportunity> findTruckQuantityMin();
 
     //mean number of Opportunities associated with an Account
     @Query(value = "SELECT AVG (opportunities) FROM account AS mean_opportunities_per_account",nativeQuery = true)
