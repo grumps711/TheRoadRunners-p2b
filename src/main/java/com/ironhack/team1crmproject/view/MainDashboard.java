@@ -20,6 +20,7 @@ public class MainDashboard {
         var input = "";
         while (!input.equalsIgnoreCase("EXIT")) {
             try {
+                System.out.println(TerminalTools.CLEAR_SCREEN);
                 System.out.println("𝐂𝐑𝐌");
                 System.out.println(TerminalTools.ANSI_BLUE);
                 System.out.println("""
@@ -69,17 +70,17 @@ public class MainDashboard {
 //
 //                options 7 8 9
                 else if (((inputArray[0] + " " + inputArray[1]).equalsIgnoreCase("LOOKUP ACCOUNT"))) {
-                    crmDashboard.showLead(Long.parseLong(inputArray[2]));}
+                    crmDashboard.showAccount(Integer.parseInt(inputArray[2]));} // Change from Long to Int to manage list in service
                 else if ((inputArray[0] + " " + inputArray[1]).equalsIgnoreCase("SHOW ACCOUNTS")) {
                     crmDashboard.showAccount(null);}
                 else if (((inputArray[0] + " " + inputArray[1]).equalsIgnoreCase("LOOKUP CONTACT"))) {
-                        crmDashboard.showLead(Long.parseLong(inputArray[2]));}
+                    crmDashboard.showContact(Integer.parseInt(inputArray[2]));} // Change from Long to Int to manage list in service
                 else if ((inputArray[0] + " " + inputArray[1]).equalsIgnoreCase("SHOW CONTACTS")) {
-                        crmDashboard.showContact(null);}
+                    crmDashboard.showContact(null);}
                 else if (((inputArray[0] + " " + inputArray[1]).equalsIgnoreCase("LOOKUP OPPORTUNITY"))) {
-                            crmDashboard.showLead(Long.parseLong(inputArray[2]));}
+                    crmDashboard.showOpportunity(Long.parseLong(inputArray[2]));}
                 else if ((inputArray[0] + " " + inputArray[1]).equalsIgnoreCase("SHOW OPPORTUNITIES")) {
-                            crmDashboard.showOpportunity(null);}
+                    crmDashboard.showOpportunity(null);}
 //            option 6
                 else {
                     System.out.println("Unrecognized command!");

@@ -38,15 +38,29 @@ public class Contact {
     private String phoneNumber;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id")
     private Account account;
 
     @OneToMany(mappedBy = "decisionMaker")
-    private List<Opportunity> opportunities = new ArrayList<>();
+    private List<Opportunity> opportunities;
 
     public Contact(String name, String role, String email, String phoneNumber) {
         this.name = name;
         this.role = role;
         this.email = email;
         this.phoneNumber = phoneNumber;
+    }
+
+    @Override
+    public String toString() {
+        return "Contact{" +
+                "contactId=" + contactId +
+                ", name='" + name + '\'' +
+                ", role='" + role + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", account=" + account +
+                ", opportunities=" + opportunities +
+                '}';
     }
 }

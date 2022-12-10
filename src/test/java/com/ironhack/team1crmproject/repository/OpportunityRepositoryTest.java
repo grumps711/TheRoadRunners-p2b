@@ -46,17 +46,17 @@ class OpportunityRepositoryTest {
         totalAccounts.add(getAccount(totalLeads.get(2).getCompanyName()));
 
         totalOpportunities.add(opportunityRepository.save(createNewOpportunity(leadRepository.findLeadByLeadId(totalLeads.get(0).getLeadId()), TruckType.BOX,6)));
-        opportunityRepository.findOpportunityByOpportunityId(totalOpportunities.get(0).getOpportunityId()).get().setDecisionMaker(contactRepository.findContactByContactId(totalContacts.get(0).getContactId()));
+        opportunityRepository.findOpportunityByOpportunityId(totalOpportunities.get(0).getOpportunityId()).get().setDecisionMaker(contactRepository.findContactByContactId(totalContacts.get(0).getContactId()).get());
         opportunityRepository.findOpportunityByOpportunityId(totalOpportunities.get(0).getOpportunityId()).get().setAccount(accountRepository.findAccountByAccountId(totalAccounts.get(0).getAccountId()));
         //leadRepository.delete(leadRepository.findLeadByLeadId(totalLeads.get(0).getLeadId()));
 
         totalOpportunities.add(opportunityRepository.save(createNewOpportunity(leadRepository.findLeadByLeadId(totalLeads.get(1).getLeadId()), TruckType.FLATBED,30)));
-        opportunityRepository.findOpportunityByOpportunityId(totalOpportunities.get(1).getOpportunityId()).get().setDecisionMaker(contactRepository.findContactByContactId(totalContacts.get(1).getContactId()));
+        opportunityRepository.findOpportunityByOpportunityId(totalOpportunities.get(1).getOpportunityId()).get().setDecisionMaker(contactRepository.findContactByContactId(totalContacts.get(1).getContactId()).get());
         opportunityRepository.findOpportunityByOpportunityId(totalOpportunities.get(1).getOpportunityId()).get().setAccount(accountRepository.findAccountByAccountId(totalAccounts.get(1).getAccountId()));
         //leadRepository.delete(leadRepository.findLeadByLeadId(totalLeads.get(1).getLeadId()));
 
         totalOpportunities.add(opportunityRepository.save(createNewOpportunity(leadRepository.findLeadByLeadId(totalLeads.get(2).getLeadId()), TruckType.BOX,15)));
-        opportunityRepository.findOpportunityByOpportunityId(totalOpportunities.get(2).getOpportunityId()).get().setDecisionMaker(contactRepository.findContactByContactId(totalContacts.get(2).getContactId()));
+        opportunityRepository.findOpportunityByOpportunityId(totalOpportunities.get(2).getOpportunityId()).get().setDecisionMaker(contactRepository.findContactByContactId(totalContacts.get(2).getContactId()).get());
         opportunityRepository.findOpportunityByOpportunityId(totalOpportunities.get(2).getOpportunityId()).get().setAccount(accountRepository.findAccountByAccountId(totalAccounts.get(2).getAccountId()));
         //leadRepository.delete(leadRepository.findLeadByLeadId(totalLeads.get(2).getLeadId()));
     }
@@ -93,7 +93,7 @@ class OpportunityRepositoryTest {
         totalAccounts.add(getAccount(totalLeads.get(3).getCompanyName()));
         // STEP 4
         var alfredOpportunity = opportunityRepository.save(createNewOpportunity(totalLeads.get(3), TruckType.BOX, 100));
-        opportunityRepository.findOpportunityByOpportunityId(alfredOpportunity.getOpportunityId()).get().setDecisionMaker(contactRepository.findContactByContactId(totalContacts.get(3).getContactId()));
+        opportunityRepository.findOpportunityByOpportunityId(alfredOpportunity.getOpportunityId()).get().setDecisionMaker(contactRepository.findContactByContactId(totalContacts.get(3).getContactId()).get());
         opportunityRepository.findOpportunityByOpportunityId(alfredOpportunity.getOpportunityId()).get().setAccount(accountRepository.findAccountByAccountId(totalAccounts.get(3).getAccountId()));
 
         assertEquals(0, leadRepository.findAll().size());

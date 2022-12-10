@@ -253,7 +253,7 @@ public class CrmDashboard {
         return valid;
     }
 
-    public void showAccount (Long number){
+    public void showAccount (Integer number){
         if (number == null) {
             System.out.println("all accounts saved in the database are showing now on screen");
             accountService.showAllAccounts();
@@ -263,7 +263,7 @@ public class CrmDashboard {
         }
     }
 
-    public void showContact (Long number){
+    public void showContact (Integer number){
         if (number == null) {
             System.out.println("all contacts saved in the database are showing now on screen");
             contactService.showAllContacts();

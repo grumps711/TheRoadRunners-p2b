@@ -23,7 +23,7 @@ public class OpportunityService {
         return opportunityRepository.save(new Opportunity(truck, quantity));
     }
     public void setOpportunityContact(Opportunity opportunity, Contact contact) {
-        opportunityRepository.findOpportunityByOpportunityId(opportunity.getOpportunityId()).get().setDecisionMaker(contactRepository.findContactByContactId(contact.getContactId()));
+        opportunityRepository.findOpportunityByOpportunityId(opportunity.getOpportunityId()).get().setDecisionMaker(contactRepository.findContactByContactId(contact.getContactId()).get());
     }
     public void setOpportunityAccount(Opportunity opportunity, Account account) {
         opportunityRepository.findOpportunityByOpportunityId(opportunity.getOpportunityId()).get().setAccount(accountRepository.findAccountByAccountId(account.getAccountId()));
