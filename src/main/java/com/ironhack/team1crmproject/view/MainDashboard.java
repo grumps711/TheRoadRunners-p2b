@@ -1,6 +1,5 @@
 package com.ironhack.team1crmproject.view;
 
-import com.ironhack.team1crmproject.service.OpportunityService;
 import com.ironhack.team1crmproject.utils.TerminalTools;
 import org.springframework.stereotype.Component;
 
@@ -21,9 +20,9 @@ public class MainDashboard {
         var input = "";
         while (!input.equalsIgnoreCase("EXIT")) {
             try {
+                System.out.println(TerminalTools.CLEAR_SCREEN);
                 System.out.println("𝐂𝐑𝐌");
-                System.out.println(TerminalTools.ANSI_BLUE);
-                System.out.println("""
+                System.out.println(TerminalTools.ANSI_BLUE + """
                         --Lead Creation--
                         To create lead type -> NEW LEAD
                         
@@ -50,7 +49,7 @@ public class MainDashboard {
 
                         --Exit--
                         To exit please type -> EXIT
-                        """);
+                        """ + TerminalTools.ANSI_RESET);
                 input = inputScanner.nextLine();
                 String[] inputArray = input.split(" ");
 
