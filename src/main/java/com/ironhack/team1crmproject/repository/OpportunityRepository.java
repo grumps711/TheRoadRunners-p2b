@@ -14,6 +14,7 @@ import java.util.Optional;
 @Repository
 public interface OpportunityRepository extends JpaRepository<Opportunity, Long>{
 
+    Opportunity findOpportunityByOpportunityId(Long id);
 
 //     --Check count of opportunities--
 //
