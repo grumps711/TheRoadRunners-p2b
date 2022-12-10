@@ -19,6 +19,7 @@ public class Team1CrmProjectApplication implements CommandLineRunner {
 		SpringApplication.run(Team1CrmProjectApplication.class, args);
 	}
 
+
 	@Override
 	public void run(String... args) throws Exception {
 		mainDashboard.run();

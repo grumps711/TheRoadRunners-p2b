@@ -5,12 +5,11 @@ import com.ironhack.team1crmproject.service.AccountService;
 import com.ironhack.team1crmproject.service.ContactService;
 import com.ironhack.team1crmproject.service.LeadService;
 import com.ironhack.team1crmproject.service.OpportunityService;
+import com.ironhack.team1crmproject.utils.TerminalTools;
 import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
-import java.net.Proxy;
-import java.util.Objects;
 import java.util.Scanner;
 
 @Component
@@ -46,7 +45,7 @@ public class CrmDashboard {
             try {
                 String[] inputArray;
                 do {
-                    System.out.println("Type first name followed by last name of the lead:");
+                    System.out.println(TerminalTools.ANSI_YELLOW + "\uD835\uDD4B\uD835\uDD6A\uD835\uDD61\uD835\uDD56 \uD835\uDD57\uD835\uDD5A\uD835\uDD63\uD835\uDD64\uD835\uDD65 \uD835\uDD5F\uD835\uDD52\uD835\uDD5E\uD835\uDD56 \uD835\uDD57\uD835\uDD60\uD835\uDD5D\uD835\uDD5D\uD835\uDD60\uD835\uDD68\uD835\uDD56\uD835\uDD55 \uD835\uDD53\uD835\uDD6A \uD835\uDD5D\uD835\uDD52\uD835\uDD64\uD835\uDD65 \uD835\uDD5F\uD835\uDD52\uD835\uDD5E\uD835\uDD56 \uD835\uDD60\uD835\uDD57 \uD835\uDD65\uD835\uDD59\uD835\uDD56 \uD835\uDD5D\uD835\uDD56\uD835\uDD52\uD835\uDD55:" + TerminalTools.ANSI_RESET);
                     input = inputScanner.nextLine();
                     if (input.equalsIgnoreCase("BACK")) break;
                     inputArray = input.split(" ");
@@ -56,7 +55,7 @@ public class CrmDashboard {
 
 
                 do {
-                    System.out.println("Type the role of the lead:");
+                    System.out.println(TerminalTools.ANSI_YELLOW + "\uD835\uDD4B\uD835\uDD6A\uD835\uDD61\uD835\uDD56 \uD835\uDD65\uD835\uDD59\uD835\uDD56 \uD835\uDD63\uD835\uDD60\uD835\uDD5D\uD835\uDD56 \uD835\uDD60\uD835\uDD57 \uD835\uDD65\uD835\uDD59\uD835\uDD56 \uD835\uDD5D\uD835\uDD56\uD835\uDD52\uD835\uDD55:" + TerminalTools.ANSI_RESET);
                     input = inputScanner.nextLine();
                     if (input.equalsIgnoreCase("BACK")) break;
                 } while (!(nameValidation(input)));
@@ -65,7 +64,7 @@ public class CrmDashboard {
 
 
                 do {
-                    System.out.println("Type the email of the lead:");
+                    System.out.println(TerminalTools.ANSI_YELLOW + "\uD835\uDD4B\uD835\uDD6A\uD835\uDD61\uD835\uDD56 \uD835\uDD65\uD835\uDD59\uD835\uDD56 \uD835\uDD56\uD835\uDD5E\uD835\uDD52\uD835\uDD5A\uD835\uDD5D \uD835\uDD60\uD835\uDD57 \uD835\uDD65\uD835\uDD59\uD835\uDD56 \uD835\uDD5D\uD835\uDD56\uD835\uDD52\uD835\uDD55:  ＠" + TerminalTools.ANSI_RESET);
                     input = inputScanner.nextLine();
                     if (input.equalsIgnoreCase("BACK")) break;
                 } while (!(emailValidation(input)));
@@ -75,7 +74,7 @@ public class CrmDashboard {
 
 
                 do {
-                    System.out.println("Type the phone number of the lead:");
+                    System.out.println(TerminalTools.ANSI_YELLOW + "\uD835\uDD4B\uD835\uDD6A\uD835\uDD61\uD835\uDD56 \uD835\uDD65\uD835\uDD59\uD835\uDD56 \uD835\uDD61\uD835\uDD59\uD835\uDD60\uD835\uDD5F\uD835\uDD56 \uD835\uDD5F\uD835\uDD66\uD835\uDD5E\uD835\uDD53\uD835\uDD56\uD835\uDD63 \uD835\uDD60\uD835\uDD57 \uD835\uDD65\uD835\uDD59\uD835\uDD56 \uD835\uDD5D\uD835\uDD56\uD835\uDD52\uD835\uDD55:  ☏" + TerminalTools.ANSI_RESET);
                     input = inputScanner.nextLine();
                     if (input.equalsIgnoreCase("BACK")) break;
                 } while (!(phoneValidation(input)));
@@ -84,7 +83,7 @@ public class CrmDashboard {
 
 
                 do {
-                    System.out.println("Type the company's name of the lead:");
+                    System.out.println(TerminalTools.ANSI_YELLOW + "\uD835\uDD4B\uD835\uDD6A\uD835\uDD61\uD835\uDD56 \uD835\uDD65\uD835\uDD59\uD835\uDD56 \uD835\uDD54\uD835\uDD60\uD835\uDD5E\uD835\uDD61\uD835\uDD52\uD835\uDD5F\uD835\uDD6A❜\uD835\uDD64 \uD835\uDD5F\uD835\uDD52\uD835\uDD5E\uD835\uDD56 \uD835\uDD60\uD835\uDD57 \uD835\uDD65\uD835\uDD59\uD835\uDD56 \uD835\uDD5D\uD835\uDD56\uD835\uDD52\uD835\uDD55:" + TerminalTools.ANSI_RESET);
                     input = inputScanner.nextLine();
                     if (input.equalsIgnoreCase("BACK")) break;
                 } while (!(nameValidation(input)));
@@ -223,7 +222,7 @@ public class CrmDashboard {
     }
 
     // validate email
-    public boolean emailValidation(@NotNull String email ) {
+    public boolean emailValidation(@NotNull String email) {
         boolean valid;
         valid = email.matches("([a-zA-Z0-9]+(?:[._+-][a-zA-Z0-9]+)*)@([a-zA-Z0-9]+(?:[.-][a-zA-Z0-9]+)*[.][a-zA-Z]{2,})");
         if(!valid){
@@ -233,7 +232,7 @@ public class CrmDashboard {
     }
 
     // validate 9-digit phone
-    public boolean phoneValidation(@NotNull String phone ) {
+    public boolean phoneValidation(@NotNull String phone) {
         boolean valid;
         valid = phone.matches("^\\d{9}$");
         if(!valid){
@@ -244,7 +243,7 @@ public class CrmDashboard {
     }
 
     // validate number
-    public boolean numberValidation(@NotNull String number ) {
+    public boolean numberValidation(@NotNull String number) {
         boolean valid;
         valid = number.matches("^[1-9]\\d*$");
         if(!valid){
@@ -282,4 +281,12 @@ public class CrmDashboard {
             opportunityService.showOpportunityById(number);
         }
     }
+
+    public void setOpportunityStatus(String status,String id) {
+            opportunityService.setOpportunityStatus(status,id);
+    }
+
+//    public void checkCountOpportunityBy(String s) {
+//        opportunityService.checkOpportunityBy(s);
+//    }
 }
