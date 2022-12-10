@@ -23,8 +23,6 @@ public class ContactService {
         return decisionMaker.get();
     }
 
-
-
     public void showAllContacts(){
         List<Contact> contacts = contactRepository.findAll();
         contacts.forEach(contact -> System.out.println(contact.toString()));

@@ -40,14 +40,14 @@ public class MainDashboard {
                         To edit the opportunity status type -> CLOSE-WON/CLOSE-LOST (followed by id of the Opportunity that is a success/lost)
                                                 
                         --Check count of Opportunities--
-                        To check the count of all Opportunities sorted type -> REPORT OPPORTUNITY BY PRODUCT/COUNTRY/CITY/INDUSTRY
+                        To check the count of all Opportunities sorted type -> REPORT OPPORTUNITY BY PRODUCTx /COUNTRYx /CITYx /INDUSTRY
                                                 
                         --Opportunity status--
                         To check the count of all opportunity status sorted type -> REPORT CLOSED-WON/CLOSED-LOST/OPEN BY PRODUCT/COUNTRY/CITY/INDUSTRY
                         
                         --Number calculations--
-                        To check the mean/median/maximum/minimum of the Employee-Count/ Quantity / Opportunities type -> MEAN/MEDIAN/MAX/MIN EMPLOYEECOUNT/QUANTITY/OPPSPERACCOUNT
-                                  
+                        To check the mean/median/maximum/minimum of the Employee-Count/Quantity/Opportunities type -> MEAN/MEDIAN/MAX/MIN EMPLOYEECOUNT/QUANTITY/OPPSPERACCOUNT
+
                         --Exit--
                         To exit please type -> EXIT
                         """);
@@ -63,8 +63,8 @@ public class MainDashboard {
                     System.out.println("you want to create a new lead");
                     crmDashboard.createLead();
                 }
-//                else if ((inputArray[0] + " " + inputArray[1] + " " + inputArray[2]).equalsIgnoreCase("REPORT OPPORTUNITY BY")) {
-//                    crmDashboard.checkCountOpportunityBy(inputArray[3]);}
+               else if ((inputArray[0] + " " + inputArray[1] + " " + inputArray[2]).equalsIgnoreCase("REPORT OPPORTUNITY BY")) {
+                    crmDashboard.checkCountOpportunityBy(inputArray[3]);}
                  else if (((inputArray[0] + " " + inputArray[1]).equalsIgnoreCase("LOOKUP LEAD"))) {
                     crmDashboard.showLead(Long.parseLong(inputArray[2]));
                 } else if ((inputArray[0] + " " + inputArray[1]).equalsIgnoreCase("SHOW LEADS")) {

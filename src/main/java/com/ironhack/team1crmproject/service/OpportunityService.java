@@ -22,8 +22,9 @@ public class OpportunityService {
         leadRepository.delete(lead);
         return opportunityRepository.save(new Opportunity(truck, quantity));
     }
+
     public void setOpportunityContact(Opportunity opportunity, Contact contact) {
-        opportunityRepository.findOpportunityByOpportunityId(opportunity.getOpportunityId()).setDecisionMaker(contactRepository.findContactByContactId(contact.getContactId()));
+        opportunityRepository.findOpportunitiesById(opportunity.getOpportunityId()).setDecisionMaker(contactRepository.findContactByContactId(contact.getContactId()));
     }
     public void setOpportunityAccount(Opportunity opportunity, Account account) {
         opportunityRepository.findOpportunityByOpportunityId(opportunity.getOpportunityId()).setAccount(accountRepository.findAccountByAccountId(account.getAccountId()));
@@ -58,15 +59,15 @@ public class OpportunityService {
         }
     }
 
-//    public void checkOpportunityBy(String s) {
-//        if(s.equalsIgnoreCase("PRODUCT")){
-//            opportunityRepository.findAllByOportunityByTruck();
-//        } else if (s.equalsIgnoreCase("COUNTRY")) {
-//            opportunityRepository.findAllByOpportunityAndAccount_Country();
-//        } else if (s.equalsIgnoreCase("CITY")){
-//            opportunityRepository.findAllByOpportunityAndAccount_City();
-//        } else {
-//            opportunityRepository.findAllByOpportunityAndAccount_IndustryType();
-//        }
-//    }
+    public void checkOpportunityBy(String s) {
+        if(s.equalsIgnoreCase("PRODUCT")){
+            opportunityRepository.findAllOpportunitiesByTruck();
+        } else if (s.equalsIgnoreCase("COUNTRY")) {
+            opportunityRepository.findAllOpportunitiesByCountry();
+        } else if (s.equalsIgnoreCase("CITY")){
+            opportunityRepository.findAllOpportunitiesByCity();
+        } else {
+            opportunityRepository.findAllOpportunitiesByIndustry();
+        }
+    }
 }
