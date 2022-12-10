@@ -22,12 +22,14 @@ public class Opportunity {
     @Column(name = "opportunity_id")
     private Long opportunityId;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "truck")
     private TruckType truck;
 
     @Column(name = "quantity")
     private int quantity;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private StatusType status;
 

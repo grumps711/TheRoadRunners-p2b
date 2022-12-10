@@ -72,11 +72,11 @@ public class MainDashboard {
                     System.out.println("you want to convert a lead (with lead's id " + inputArray[1] + ") to an opportunity");
                     crmDashboard.convertLeadToOpportunity(Long.parseLong(inputArray[1]));
                 } else if (((inputArray[0] + " " + inputArray[1]).equalsIgnoreCase("LOOKUP ACCOUNT"))) {
-                    crmDashboard.showLead(Long.parseLong(inputArray[2]));
+                    crmDashboard.showLead(Integer.parseInt(inputArray[2]));
                 } else if ((inputArray[0] + " " + inputArray[1]).equalsIgnoreCase("SHOW ACCOUNTS")) {
                     crmDashboard.showAccount(null);
                 } else if (((inputArray[0] + " " + inputArray[1]).equalsIgnoreCase("LOOKUP CONTACT"))) {
-                    crmDashboard.showLead(Long.parseLong(inputArray[2]));
+                    crmDashboard.showLead(Integer.parseInt(inputArray[2]));
                 } else if ((inputArray[0] + " " + inputArray[1]).equalsIgnoreCase("SHOW CONTACTS")) {
                     crmDashboard.showContact(null);
                 } else if (((inputArray[0] + " " + inputArray[1]).equalsIgnoreCase("LOOKUP OPPORTUNITY"))) {

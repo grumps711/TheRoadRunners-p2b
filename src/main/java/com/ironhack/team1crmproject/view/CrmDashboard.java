@@ -1,9 +1,6 @@
 package com.ironhack.team1crmproject.view;
 
-import com.ironhack.team1crmproject.model.Account;
-import com.ironhack.team1crmproject.model.IndustryType;
-import com.ironhack.team1crmproject.model.Lead;
-import com.ironhack.team1crmproject.model.TruckType;
+import com.ironhack.team1crmproject.model.*;
 import com.ironhack.team1crmproject.service.AccountService;
 import com.ironhack.team1crmproject.service.ContactService;
 import com.ironhack.team1crmproject.service.LeadService;
@@ -102,8 +99,8 @@ public class CrmDashboard {
                     if (input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("y")) {
 
                         System.out.println("Great");
-
                         leadService.save(new Lead(name, role, email, phoneNumber, companyName));
+
                         System.out.println("Lead was created successfully\n");
 
                         System.out.println("What do you want to do next? Create another Lead or go back?");
@@ -204,6 +201,13 @@ public class CrmDashboard {
     }
 
     public void checkOneOpportunity(long parseLong) {
+        Opportunity opportunityToShow;
+        try {
+            opportunityToShow = opportunityService.findOpportunityByOpportunityId(parseLong);
+            System.out.println("INFORMATION ABOUT OPPORTUNITY" + opportunityToShow.toString());
+        } catch (IllegalArgumentException e) {
+            System.err.println("Opportunity not present in database");
+        }
     }
 
     // validate name
@@ -248,7 +252,7 @@ public class CrmDashboard {
         return valid;
     }
 
-    public void showAccount (Long number){
+    public void showAccount (Integer number){
         if (number == null) {
             System.out.println("all accounts saved in the database are showing now on screen");
             accountService.showAllAccounts();
@@ -258,7 +262,7 @@ public class CrmDashboard {
         }
     }
 
-    public void showContact (Long number){
+    public void showContact (Integer number){
         if (number == null) {
             System.out.println("all contacts saved in the database are showing now on screen");
             contactService.showAllContacts();

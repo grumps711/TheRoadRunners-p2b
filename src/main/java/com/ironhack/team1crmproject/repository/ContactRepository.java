@@ -9,12 +9,10 @@ import java.util.Optional;
 
 @Repository
 public interface ContactRepository extends JpaRepository<Contact, Long>{
-
     Optional<Contact> findContactByName(String name);
-    Contact findContactByContactId(Long contactId);
+    Optional<Contact> findContactByContactId(Long contactId);
     //List<Contact> findContactByName(String name);
     List<Contact> findContactByRole(String Role);
     List<Contact> findContactByEmail(String email);
     List<Contact> findContactByPhoneNumber(String phoneNumber);
-
 }

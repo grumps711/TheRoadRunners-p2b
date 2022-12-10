@@ -34,6 +34,7 @@ public class Account {
     @Column(name = "city")
     private String city;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "industry_type")
     private IndustryType industryType;
 
